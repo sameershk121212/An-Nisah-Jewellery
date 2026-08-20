@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        An-Nisah Jewellery | Elegant Fashion Jewellery
+    </title>
+
+    <meta
+        name="description"
+        content="An-Nisah Jewellery - Elegant ladies fashion jewellery at affordable prices."
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     NAVBAR
+========================================== -->
+
+<header class="navbar">
+
+    <div class="logo">
+
+        <span>
+            An-Nisah
+        </span>
+
+        <small>
+            JEWELLERY
+        </small>
+
+    </div>
+
+
+    <nav>
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#shop">
+            Shop
+        </a>
+
+        <a href="#categories">
+            Categories
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+        <a href="#contact">
+            Contact
+        </a>
+
+    </nav>
+
+
+    <button
+        class="cart-btn"
+        onclick="openCart()"
+    >
+
+        🛒 Cart
+
+        <span id="cartCount">
+            0
+        </span>
+
+    </button>
+
+</header>
+
+
+
+<!-- ==========================================
+     HERO
+========================================== -->
+
+<section
+    class="hero"
+    id="home"
+>
+
+
+    <div class="hero-content">
+
+
+        <p class="eyebrow">
+            AN-NISAH JEWELLERY
+        </p>
+
+
+        <h1>
+
+            Elegance<br>
+            That Speaks<br>
+            For You.
+
+        </h1>
+
+
+        <p class="hero-text">
+
+            Discover elegant ladies fashion jewellery
+            designed to make every moment a little
+            more special.
+
+        </p>
+
+
+        <a
+            href="#shop"
+            class="gold-btn"
+        >
+
+            Explore Collection
+
+        </a>
+
+
+    </div>
+
+
+
+    <div class="hero-decoration">
+
+
+        <div class="gold-circle">
+        </div>
+
+
+        <div class="hero-card">
+
+            <span>
+                NEW
+            </span>
+
+            <h3>
+                ₹299
+            </h3>
+
+            <p>
+                Elegant Collection
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     CATEGORIES
+========================================== -->
+
+<section
+    class="categories"
+    id="categories"
+>
+
+
+    <div class="section-heading">
+
+        <p>
+            EXPLORE
+        </p>
+
+        <h2>
+            Shop By Category
+        </h2>
+
+        <span>
+            Find something beautiful for every occasion.
+        </span>
+
+    </div>
+
+
+
+    <div class="category-grid">
+
+
+        <!-- NECKLACES -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('necklaces')"
+        >
+
+
+            <div class="category-visual necklace-visual">
+
+                <div class="necklace-chain">
+                </div>
+
+                <div class="necklace-pendant">
+                    ◆
+                </div>
+
+            </div>
+
+
+            <h3>
+                Necklaces
+            </h3>
+
+
+            <p>
+                Elegant Neck Pieces
+            </p>
+
+
+            <span class="category-arrow">
+                Explore →
+            </span>
+
+
+        </div>
+
+
+
+        <!-- RINGS -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('rings')"
+        >
+
+
+            <div class="category-visual ring-visual">
+
+                <div class="ring-shape">
+                </div>
+
+                <div class="ring-stone">
+                </div>
+
+            </div>
+
+
+            <h3>
+                Rings
+            </h3>
+
+
+            <p>
+                Timeless Elegance
+            </p>
+
+
+            <span class="category-arrow">
+                Explore →
+            </span>
+
+
+        </div>
+
+
+
+        <!-- BANGLES -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('bangles')"
+        >
+
+
+            <div class="category-visual bangles-visual">
+
+                <div class="bangle b1">
+                </div>
+
+                <div class="bangle b2">
+                </div>
+
+                <div class="bangle b3">
+                </div>
+
+            </div>
+
+
+            <h3>
+                Bangles
+            </h3>
+
+
+            <p>
+                Classic Golden Shine
+            </p>
+
+
+            <span class="category-arrow">
+                Explore →
+            </span>
+
+
+        </div>
+
+
+
+        <!-- GIFT HAMPERS -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('gift')"
+        >
+
+
+            <div class="category-visual gift-visual">
+
+                <div class="gift-box">
+
+                    <div class="gift-ribbon">
+                    </div>
+
+                    <div class="gift-bow">
+                        ✦
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <h3>
+                Gift Hampers
+            </h3>
+
+
+            <p>
+                Made For Special Moments
+            </p>
+
+
+            <span class="category-arrow">
+                Explore →
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     PRODUCTS
+========================================== -->
+
+<section
+    class="shop"
+    id="shop"
+>
+
+
+    <div class="section-heading">
+
+        <p>
+            OUR COLLECTION
+        </p>
+
+        <h2>
+            Featured Jewellery
+        </h2>
+
+        <span>
+            Beautiful pieces. Simple pricing. Just ₹299.
+        </span>
+
+    </div>
+
+
+    <div
+        class="product-grid"
+        id="productGrid"
+    >
+
+        <!-- PRODUCTS LOAD FROM SCRIPT.JS -->
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     ABOUT
+========================================== -->
+
+<section
+    class="about"
+    id="about"
+>
+
+
+    <div>
+
+        <p class="eyebrow">
+            OUR STORY
+        </p>
+
+
+        <h2>
+
+            Jewellery that adds
+            a little sparkle.
+
+        </h2>
+
+    </div>
+
+
+    <p>
+
+        Welcome to An-Nisah Jewellery.
+        We bring you beautiful ladies fashion jewellery
+        that is elegant, stylish and easy to love.
+
+    </p>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     WHY US
+========================================== -->
+
+<section class="why-us">
+
+
+    <div class="section-heading">
+
+        <p>
+            WHY AN-NISAH
+        </p>
+
+        <h2>
+            Made For Every Moment
+        </h2>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <div>
+
+            <strong>
+                ₹299
+            </strong>
+
+            <p>
+                Affordable Collection
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                ✦
+            </strong>
+
+            <p>
+                Elegant Designs
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                UPI
+            </strong>
+
+            <p>
+                Easy Online Payment
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     CONTACT
+========================================== -->
+
+<section
+    class="contact"
+    id="contact"
+>
+
+
+    <p class="eyebrow">
+        GET IN TOUCH
+    </p>
+
+
+    <h2>
+        An-Nisah Jewellery
+    </h2>
+
+
+    <p>
+
+        Vallabhnagar, Pimpri,<br>
+
+        Near DY Patil Hospital &
+        Medical College,<br>
+
+        Mahesh Nagar, Pune,
+        Maharashtra - 411018
+
+    </p>
+
+
+    <a
+        class="instagram"
+        href="https://www.instagram.com/annisah.jewellery/"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+
+        Instagram:
+        @annisah.jewellery
+
+    </a>
+
+
+</section>
+
+
+
+<!-- ==========================================
+     FOOTER
+========================================== -->
+
+<footer>
+
+
+    <div class="footer-logo">
+
+        An-Nisah Jewellery
+
+    </div>
+
+
+    <p>
+
+        Elegant jewellery for every occasion.
+
+    </p>
+
+
+    <small>
+
+        © 2026 An-Nisah Jewellery.
+        All rights reserved.
+
+    </small>
+
+
+</footer>
+
+
+
+<!-- ==========================================
+     CART
+========================================== -->
+
+<div
+    class="cart-overlay"
+    id="cartOverlay"
+>
+
+
+    <div class="cart">
+
+
+        <button
+            class="close-cart"
+            onclick="closeCart()"
+        >
+
+            ×
+
+        </button>
+
+
+        <h2>
+            Your Cart
+        </h2>
+
+
+        <div id="cartItems">
+        </div>
+
+
+        <div class="cart-total">
+
+            <span>
+                Total
+            </span>
+
+
+            <strong>
+
+                ₹<span id="cartTotal">
+                    0
+                </span>
+
+            </strong>
+
+        </div>
+
+
+        <button
+            class="checkout-btn"
+            onclick="checkout()"
+        >
+
+            Proceed to Checkout
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     CATEGORY PAGE
+========================================== -->
+
+<div id="categoryPage">
+
+    <!-- CATEGORY CONTENT
+         GENERATED BY SCRIPT.JS -->
+
+</div>
+
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="script.js"></script>
+
+
+
+</body>
+
+</html>
+

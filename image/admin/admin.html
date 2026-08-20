@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>An-Nisah Jewellery | Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     LOGIN PAGE
+========================================== -->
+
+<div
+    class="login-page"
+    id="loginPage"
+>
+
+    <div class="login-box">
+
+
+        <div class="admin-logo">
+
+            <span>
+                An-Nisah
+            </span>
+
+            <small>
+                JEWELLERY
+            </small>
+
+        </div>
+
+
+        <div class="login-heading">
+
+            <p>
+                ADMIN PANEL
+            </p>
+
+            <h1>
+                Welcome Back
+            </h1>
+
+            <span>
+                Sign in to manage your store.
+            </span>
+
+        </div>
+
+
+        <form id="loginForm">
+
+
+            <label>
+                Admin Email
+            </label>
+
+            <input
+                id="adminEmail"
+                type="email"
+                placeholder="Enter admin email"
+                required
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="adminPassword"
+                type="password"
+                placeholder="Enter password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="admin-main-btn"
+            >
+                Sign In →
+            </button>
+
+
+        </form>
+
+
+        <p
+            class="login-message"
+            id="loginMessage"
+        ></p>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- ==========================================
+     ADMIN APP
+========================================== -->
+
+<div
+    class="admin-app"
+    id="adminApp"
+>
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+
+        <div class="sidebar-logo">
+
+            <span>
+                An-Nisah
+            </span>
+
+            <small>
+                ADMIN
+            </small>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+
+            <button
+                class="nav-item active"
+                data-section="dashboard"
+            >
+
+                <span>
+                    ⌂
+                </span>
+
+                Dashboard
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="products"
+            >
+
+                <span>
+                    ◇
+                </span>
+
+                Products
+
+            </button>
+
+
+            <button
+                class="nav-item"
+                data-section="orders"
+            >
+
+                <span>
+                    □
+                </span>
+
+                Orders
+
+            </button>
+
+
+        </nav>
+
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="admin-main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="admin-topbar">
+
+
+            <div>
+
+                <p>
+                    AN-NISAH JEWELLERY
+                </p>
+
+                <h2 id="pageTitle">
+                    Dashboard
+                </h2>
+
+            </div>
+
+
+            <div class="admin-user">
+
+
+                <div class="user-circle">
+                    A
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <small>
+                        Store Manager
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- ==================================
+             DASHBOARD
+        =================================== -->
+
+        <section
+            class="admin-section active"
+            id="dashboardSection"
+        >
+
+
+            <div class="section-intro">
+
+                <p>
+                    OVERVIEW
+                </p>
+
+                <h1>
+                    Store Dashboard
+                </h1>
+
+                <span>
+                    Manage your jewellery store
+                    from one place.
+                </span>
+
+            </div>
+
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ◇
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Products
+                        </span>
+
+                        <strong id="totalProducts">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        □
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Orders
+                        </span>
+
+                        <strong id="totalOrders">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ₹
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Revenue
+                        </span>
+
+                        <strong id="totalRevenue">
+                            ₹0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ✦
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Categories
+                        </span>
+
+                        <strong>
+                            4
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- DASHBOARD CARDS -->
+
+            <div class="dashboard-grid">
+
+
+                <div class="dashboard-card">
+
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <p>
+                                PRODUCTS
+                            </p>
+
+                            <h3>
+                                Quick Actions
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+
+                        <button
+                            class="quick-btn"
+                            data-open="products"
+                        >
+
+                            <span>
+                                ＋
+                            </span>
+
+                            Add Product
+
+                        </button>
+
+
+                        <button
+                            class="quick-btn"
+                            data-open="products"
+                        >
+
+                            <span>
+                                ◇
+                            </span>
+
+                            Manage Products
+
+                        </button>
+
+
+                        <button
+                            class="quick-btn"
+                            data-open="orders"
+                        >
+
+                            <span>
+                                □
+                            </span>
+
+                            View Orders
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="dashboard-card">
+
+
+                    <div class="card-heading">
+
+                        <div>
+
+                            <p>
+                                STORE
+                            </p>
+
+                            <h3>
+                                Categories
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="category-list">
+
+
+                        <div>
+
+                            <span>
+                                Necklaces
+                            </span>
+
+                            <b>
+                                0
+                            </b>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Rings
+                            </span>
+
+                            <b>
+                                0
+                            </b>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Bangles
+                            </span>
+
+                            <b>
+                                0
+                            </b>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Gift Hampers
+                            </span>
+
+                            <b>
+                                0
+                            </b>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================
+             PRODUCTS
+        =================================== -->
+
+        <section
+            class="admin-section"
+            id="productsSection"
+        >
+
+
+            <div class="section-top">
+
+
+                <div class="section-intro">
+
+                    <p>
+                        STORE
+                    </p>
+
+                    <h1>
+                        Products
+                    </h1>
+
+                    <span>
+                        Add and manage your jewellery.
+                    </span>
+
+                </div>
+
+
+
+                <button
+                    class="admin-main-btn add-product-btn"
+                    id="addProductBtn"
+                >
+                    + Add Product
+                </button>
+
+
+            </div>
+
+
+
+            <!-- PRODUCTS WILL APPEAR HERE -->
+
+            <div
+                class="products-admin-grid"
+                id="adminProducts"
+            ></div>
+
+
+        </section>
+
+
+
+        <!-- ==================================
+             ORDERS
+        =================================== -->
+
+        <section
+            class="admin-section"
+            id="ordersSection"
+        >
+
+
+            <div class="section-intro">
+
+                <p>
+                    STORE
+                </p>
+
+                <h1>
+                    Orders
+                </h1>
+
+                <span>
+                    View and manage customer orders.
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="orders-box"
+                id="ordersList"
+            >
+
+
+                <div class="empty-orders">
+
+
+                    <div>
+                        □
+                    </div>
+
+
+                    <h2>
+                        No Orders Yet
+                    </h2>
+
+
+                    <p>
+                        New customer orders
+                        will appear here.
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     ADD PRODUCT MODAL
+========================================== -->
+
+<div
+    class="modal-overlay"
+    id="productModal"
+>
+
+
+    <div class="product-modal">
+
+
+        <button
+            class="modal-close"
+            id="closeProductModal"
+        >
+            ×
+        </button>
+
+
+
+        <div class="modal-heading">
+
+            <p>
+                PRODUCT
+            </p>
+
+            <h2>
+                Add New Product
+            </h2>
+
+            <span>
+                Add a new jewellery item
+                to your store.
+            </span>
+
+        </div>
+
+
+
+        <form id="productForm">
+
+
+            <label>
+                Product Name
+            </label>
+
+            <input
+                id="productName"
+                type="text"
+                placeholder="Example: Elegant Necklace"
+                required
+            >
+
+
+
+            <label>
+                Price
+            </label>
+
+            <input
+                id="productPrice"
+                type="number"
+                placeholder="299"
+                min="1"
+                required
+            >
+
+
+
+            <label>
+                Category
+            </label>
+
+            <select
+                id="productCategory"
+                required
+            >
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="necklaces">
+                    Necklaces
+                </option>
+
+                <option value="rings">
+                    Rings
+                </option>
+
+                <option value="bangles">
+                    Bangles
+                </option>
+
+                <option value="gift">
+                    Gift Hampers
+                </option>
+
+            </select>
+
+
+
+            <label>
+                Image Path
+            </label>
+
+            <input
+                id="productImage"
+                type="text"
+                placeholder="../product9.jpg"
+                required
+            >
+
+
+
+            <button
+                type="submit"
+                class="admin-main-btn"
+            >
+                Add Product →
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ==========================================
+     JAVASCRIPT
+========================================== -->
+
+<script src="admin.js"></script>
+
+
+</body>
+
+</html>
