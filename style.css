@@ -3981,3 +3981,280 @@ footer {
     margin: 5px 0 0;
     opacity: 0.65;
 }
+/* ==========================================
+   AN-NISAH — LUXURY SCROLL ANIMATIONS
+   SAFE ADD-ON
+========================================== */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* Product cards */
+.product-card {
+    opacity: 0;
+    transform: translateY(45px) scale(0.97);
+    animation: productReveal 0.8s ease forwards;
+}
+
+.product-card:nth-child(1) { animation-delay: 0.05s; }
+.product-card:nth-child(2) { animation-delay: 0.12s; }
+.product-card:nth-child(3) { animation-delay: 0.19s; }
+.product-card:nth-child(4) { animation-delay: 0.26s; }
+.product-card:nth-child(5) { animation-delay: 0.33s; }
+.product-card:nth-child(6) { animation-delay: 0.40s; }
+.product-card:nth-child(7) { animation-delay: 0.47s; }
+.product-card:nth-child(8) { animation-delay: 0.54s; }
+
+@keyframes productReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* Product image luxury zoom */
+.product-card .product-image {
+    overflow: hidden;
+}
+
+.product-card .product-image img {
+    transition:
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.5s ease;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.08);
+}
+
+
+/* Product card hover */
+.product-card {
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+}
+
+
+/* Buttons */
+button {
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+}
+
+
+/* Section headings */
+section h1,
+section h2,
+section h3 {
+    transition:
+        transform 0.6s ease,
+        opacity 0.6s ease;
+}
+
+
+/* Luxury gold shine on buttons */
+.add-cart,
+.main-pay-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.add-cart::after,
+.main-pay-button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 70%;
+    height: 100%;
+    background: linear-gradient(
+        100deg,
+        transparent,
+        rgba(255,255,255,0.45),
+        transparent
+    );
+    transform: skewX(-20deg);
+    transition: left 0.7s ease;
+}
+
+.add-cart:hover::after,
+.main-pay-button:hover::after {
+    left: 140%;
+}
+
+
+/* Images feel alive while scrolling */
+.product-image img {
+    will-change: transform;
+}
+
+
+/* Category page entrance */
+.category-page.active {
+    animation: categoryFade 0.5s ease;
+}
+
+@keyframes categoryFade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Category cards */
+.category-page .product-card {
+    animation:
+        categoryCardReveal 0.8s ease forwards;
+}
+
+@keyframes categoryCardReveal {
+    from {
+        opacity: 0;
+        transform: translateY(55px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* Cart animation */
+.cart-item {
+    animation: cartItemReveal 0.4s ease;
+}
+
+@keyframes cartItemReveal {
+    from {
+        opacity: 0;
+        transform: translateX(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* Checkout entrance */
+#checkoutPage {
+    animation: checkoutReveal 0.55s ease;
+}
+
+@keyframes checkoutReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Payment cards */
+.payment-card {
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+.payment-card:hover {
+    transform: translateY(-6px) scale(1.01);
+}
+
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .product-card:hover {
+        transform: none;
+    }
+
+    .product-card .product-image img {
+        transition: transform 0.5s ease;
+    }
+
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    display: block;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+}
+/* ==========================================
+   AN-NISAH LOGO
+========================================== */
+
+.navbar .logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.navbar .logo img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    width: 52px !important;
+    height: 52px !important;
+
+    max-width: 52px !important;
+    max-height: 52px !important;
+
+    object-fit: contain !important;
+    flex-shrink: 0 !important;
+}
+
+.navbar .logo-text {
+    display: flex !important;
+    flex-direction: column !important;
+}

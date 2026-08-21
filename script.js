@@ -1,7 +1,7 @@
 /* ==========================================
    AN-NISAH JEWELLERY
    CUSTOMER WEBSITE SCRIPT
-   RAZORPAY READY VERSION
+   PART 1
 ========================================== */
 
 
@@ -66,6 +66,27 @@ let cart = [];
 
 
 /* ==========================================
+   CUSTOMER LOGIN
+========================================== */
+
+let customerLoggedIn =
+    localStorage.getItem(
+        "annisahCustomerLoggedIn"
+    ) === "true";
+
+
+let customerAccount =
+    JSON.parse(
+        localStorage.getItem(
+            "annisahCustomerAccount"
+        ) || "null"
+    );
+
+
+let loginOTP = null;
+
+
+/* ==========================================
    PRODUCT GRID
 ========================================== */
 
@@ -78,6 +99,7 @@ function showMainProducts() {
     if (!productGrid) return;
 
     productGrid.innerHTML = "";
+
 
     products.forEach((product, index) => {
 
@@ -94,15 +116,18 @@ function showMainProducts() {
 
                 </div>
 
+
                 <div class="product-info">
 
                     <h3>
                         ${product.name}
                     </h3>
 
+
                     <p>
                         ₹${product.price}
                     </p>
+
 
                     <button
                         class="add-cart"
@@ -129,13 +154,20 @@ function showMainProducts() {
 function openCategory(category) {
 
     const page =
-        document.getElementById("categoryPage");
+        document.getElementById(
+            "categoryPage"
+        );
+
 
     if (!page) return;
 
+
     let title = "";
+
     let subtitle = "";
+
     let categoryProducts = [];
+
 
     if (category === "necklaces") {
 
@@ -148,6 +180,7 @@ function openCategory(category) {
 
     }
 
+
     else if (category === "rings") {
 
         title = "Rings";
@@ -159,6 +192,7 @@ function openCategory(category) {
 
     }
 
+
     else if (category === "bangles") {
 
         title = "Bangles";
@@ -169,6 +203,7 @@ function openCategory(category) {
         categoryProducts = [];
 
     }
+
 
     else if (category === "gift") {
 
@@ -195,11 +230,13 @@ function openCategory(category) {
                     ← Back
                 </button>
 
+
                 <div class="category-page-logo">
 
                     <span>
                         An-Nisah
                     </span>
+
 
                     <small>
                         JEWELLERY
@@ -216,9 +253,11 @@ function openCategory(category) {
                     AN-NISAH COLLECTION
                 </p>
 
+
                 <h1>
                     ${title}
                 </h1>
+
 
                 <span>
                     ${subtitle}
@@ -253,12 +292,15 @@ function openCategory(category) {
                     ✦
                 </div>
 
+
                 <h2>
                     Coming Soon
                 </h2>
 
+
                 <p>
-                    Beautiful ${title.toLowerCase()}
+                    Beautiful
+                    ${title.toLowerCase()}
                     will be added here soon.
                 </p>
 
@@ -267,6 +309,7 @@ function openCategory(category) {
         `;
 
     }
+
 
     else {
 
@@ -286,15 +329,18 @@ function openCategory(category) {
 
                         </div>
 
+
                         <div class="product-info">
 
                             <h3>
                                 ${product.name}
                             </h3>
 
+
                             <p>
                                 ₹${product.price}
                             </p>
+
 
                             <button
                                 class="add-cart"
@@ -340,7 +386,9 @@ function closeCategory() {
             "categoryPage"
         );
 
+
     if (!page) return;
+
 
     page.classList.remove("show");
 
@@ -367,6 +415,7 @@ function addToCart(index) {
     const product =
         products[index];
 
+
     if (!product) return;
 
 
@@ -382,6 +431,7 @@ function addToCart(index) {
         existing.quantity++;
 
     }
+
 
     else {
 
@@ -422,10 +472,12 @@ function updateCart() {
             "cartCount"
         );
 
+
     const items =
         document.getElementById(
             "cartItems"
         );
+
 
     const total =
         document.getElementById(
@@ -450,6 +502,7 @@ function updateCart() {
         totalItems +=
             item.quantity;
 
+
         totalPrice +=
             item.price *
             item.quantity;
@@ -459,6 +512,7 @@ function updateCart() {
 
     count.textContent =
         totalItems;
+
 
     total.textContent =
         totalPrice;
@@ -494,9 +548,11 @@ function updateCart() {
                         ${item.name}
                     </strong>
 
+
                     <p>
                         ₹${item.price}
                     </p>
+
 
                     <div class="quantity">
 
@@ -506,9 +562,11 @@ function updateCart() {
                             −
                         </button>
 
+
                         <span>
                             ${item.quantity}
                         </span>
+
 
                         <button
                             onclick="changeQuantity(${index}, 1)"
@@ -518,6 +576,7 @@ function updateCart() {
 
                     </div>
 
+
                     <button
                         class="remove-btn"
                         onclick="removeFromCart(${index})"
@@ -526,6 +585,7 @@ function updateCart() {
                     </button>
 
                 </div>
+
 
                 <strong>
                     ₹${item.price * item.quantity}
@@ -643,12 +703,404 @@ function getTotal() {
 
 
 /* ==========================================
+   CUSTOMER LOGIN
+========================================== */
+
+function openLogin() {
+
+    const overlay =
+        document.getElementById(
+            "loginOverlay"
+        );
+
+
+    if (!overlay) return;
+
+
+    if (customerLoggedIn) {
+
+        const logout =
+            confirm(
+                "You are already logged in.\n\n" +
+                "Do you want to logout?"
+            );
+
+
+        if (logout) {
+
+            logoutCustomer();
+
+        }
+
+
+        return;
+
+    }
+
+
+    overlay.classList.add("active");
+
+}
+
+
+/* ==========================================
+   CLOSE LOGIN
+========================================== */
+
+function closeLogin() {
+
+    const overlay =
+        document.getElementById(
+            "loginOverlay"
+        );
+
+
+    if (!overlay) return;
+
+
+    overlay.classList.remove("active");
+
+}
+
+
+/* ==========================================
+   SEND LOGIN OTP
+========================================== */
+
+function sendLoginOTP() {
+
+    const email =
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+
+    const phone =
+        document
+            .getElementById("loginPhone")
+            .value
+            .trim();
+
+
+    if (!email) {
+
+        alert(
+            "Please enter your email address."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            .test(email)
+    ) {
+
+        alert(
+            "Please enter a valid email address."
+        );
+
+        return;
+
+    }
+
+
+    const cleanPhone =
+        phone.replace(/\D/g, "");
+
+
+    if (cleanPhone.length !== 10) {
+
+        alert(
+            "Please enter a valid 10-digit phone number."
+        );
+
+        return;
+
+    }
+
+
+    loginOTP =
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        ).toString();
+
+
+    console.log(
+        "DEMO LOGIN OTP:",
+        loginOTP
+    );
+
+
+    customerAccount = {
+
+        email:
+            email,
+
+        phone:
+            cleanPhone
+
+    };
+
+
+    const loginForm =
+        document.getElementById(
+            "loginForm"
+        );
+
+
+    const otpForm =
+        document.getElementById(
+            "otpForm"
+        );
+
+
+    const otpMessage =
+        document.getElementById(
+            "otpMessage"
+        );
+
+
+    if (loginForm) {
+
+        loginForm.style.display =
+            "none";
+
+    }
+
+
+    if (otpForm) {
+
+        otpForm.style.display =
+            "block";
+
+    }
+
+
+    if (otpMessage) {
+
+        otpMessage.textContent =
+            "Demo OTP: " +
+            loginOTP +
+            " — enter this OTP to continue.";
+
+    }
+
+}
+
+
+/* ==========================================
+   VERIFY LOGIN OTP
+========================================== */
+
+function verifyLoginOTP() {
+
+    const otpInput =
+        document.getElementById(
+            "loginOTP"
+        );
+
+
+    if (!otpInput) return;
+
+
+    const enteredOTP =
+        otpInput.value.trim();
+
+
+    if (!enteredOTP) {
+
+        alert(
+            "Please enter the OTP."
+        );
+
+        return;
+
+    }
+
+
+    if (enteredOTP !== loginOTP) {
+
+        alert(
+            "Incorrect OTP. Please try again."
+        );
+
+        return;
+
+    }
+
+
+    customerLoggedIn = true;
+
+
+    localStorage.setItem(
+        "annisahCustomerLoggedIn",
+        "true"
+    );
+
+
+    localStorage.setItem(
+        "annisahCustomerAccount",
+        JSON.stringify(
+            customerAccount
+        )
+    );
+
+
+    loginOTP = null;
+
+
+    closeLogin();
+
+
+    updateLoginButton();
+
+
+    alert(
+        "Login successful! You can now place your order."
+    );
+
+}
+
+
+/* ==========================================
+   BACK TO LOGIN
+========================================== */
+
+function backToLogin() {
+
+    const loginForm =
+        document.getElementById(
+            "loginForm"
+        );
+
+
+    const otpForm =
+        document.getElementById(
+            "otpForm"
+        );
+
+
+    if (loginForm) {
+
+        loginForm.style.display =
+            "block";
+
+    }
+
+
+    if (otpForm) {
+
+        otpForm.style.display =
+            "none";
+
+    }
+
+
+    loginOTP = null;
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logoutCustomer() {
+
+    customerLoggedIn = false;
+
+    customerAccount = null;
+
+    loginOTP = null;
+
+
+    localStorage.removeItem(
+        "annisahCustomerLoggedIn"
+    );
+
+
+    localStorage.removeItem(
+        "annisahCustomerAccount"
+    );
+
+
+    updateLoginButton();
+
+
+    alert(
+        "You have been logged out."
+    );
+
+}
+
+
+/* ==========================================
+   UPDATE LOGIN BUTTON
+========================================== */
+
+function updateLoginButton() {
+
+    const button =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    if (!button) return;
+
+
+    if (customerLoggedIn) {
+
+        button.textContent =
+            "👤 Account";
+
+    }
+
+    else {
+
+        button.textContent =
+            "👤 Login";
+
+    }
+
+}
+
+
+/* ==========================================
+   LOGIN CHECK
+========================================== */
+
+function isCustomerLoggedIn() {
+
+    return customerLoggedIn === true;
+
+}
+
+
+/* ==========================================
+   INITIALIZE LOGIN BUTTON
+========================================== */
+
+updateLoginButton();
+/* ==========================================
+   PART 2
+   CHECKOUT + RAZORPAY + WHATSAPP
+========================================== */
+
+
+/* ==========================================
    SAVE ORDER
 ========================================== */
 
 function saveOrder(
     customerName,
     customerEmail,
+    customerPhone,
     customerAddress,
     paymentMethod,
     paymentStatus,
@@ -700,6 +1152,9 @@ function saveOrder(
         customerEmail:
             customerEmail || "",
 
+        customerPhone:
+            customerPhone || "",
+
         customerAddress:
             customerAddress,
 
@@ -729,11 +1184,18 @@ function saveOrder(
         paymentStatus:
             paymentStatus,
 
+        orderStatus:
+            paymentMethod === "Razorpay"
+                ? "Confirmed"
+                : "Pending",
+
         paymentId:
             paymentId,
 
         date:
-            new Date().toLocaleString("en-IN")
+            new Date().toLocaleString(
+                "en-IN"
+            )
 
     };
 
@@ -769,7 +1231,25 @@ function checkout() {
     }
 
 
+    /* LOGIN REQUIRED */
+
+    if (!isCustomerLoggedIn()) {
+
+        alert(
+            "Please login before placing your order."
+        );
+
+
+        openLogin();
+
+
+        return;
+
+    }
+
+
     closeCart();
+
 
     createCheckoutPage();
 
@@ -796,7 +1276,9 @@ function createCheckoutPage() {
 
 
     const page =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     page.id =
@@ -815,6 +1297,7 @@ function createCheckoutPage() {
                 >
                     ← Back
                 </button>
+
 
                 <div class="checkout-logo">
 
@@ -837,9 +1320,11 @@ function createCheckoutPage() {
                     SECURE CHECKOUT
                 </p>
 
+
                 <h1>
                     Complete Your Order
                 </h1>
+
 
                 <span>
                     Choose your preferred
@@ -854,6 +1339,7 @@ function createCheckoutPage() {
                 <span>
                     Order Total
                 </span>
+
 
                 <strong>
                     ₹${getTotal()}
@@ -873,22 +1359,26 @@ function createCheckoutPage() {
                         💳
                     </div>
 
+
                     <div>
 
                         <h2>
                             UPI Payment
                         </h2>
 
+
                         <p>
                             Pay securely using
-                            Razorpay UPI.
+                            Razorpay.
                         </p>
+
 
                         <small>
                             Fast & Secure
                         </small>
 
                     </div>
+
 
                     <b>
                         →
@@ -906,11 +1396,13 @@ function createCheckoutPage() {
                         💬
                     </div>
 
+
                     <div>
 
                         <h2>
                             WhatsApp Order
                         </h2>
+
 
                         <p>
                             Send your order
@@ -918,11 +1410,13 @@ function createCheckoutPage() {
                             WhatsApp.
                         </p>
 
+
                         <small>
                             Quick Ordering
                         </small>
 
                     </div>
+
 
                     <b>
                         →
@@ -983,6 +1477,10 @@ function showUPI() {
     if (!page) return;
 
 
+    const account =
+        customerAccount || {};
+
+
     page.innerHTML = `
 
         <div class="checkout-container">
@@ -996,11 +1494,13 @@ function showUPI() {
                     ← Back
                 </button>
 
+
                 <div class="checkout-logo">
 
                     <b>
                         An-Nisah
                     </b>
+
 
                     <small>
                         JEWELLERY
@@ -1017,12 +1517,15 @@ function showUPI() {
                     RAZORPAY PAYMENT
                 </p>
 
+
                 <h1>
                     Your Details
                 </h1>
 
+
                 <span>
-                    Enter your details before payment.
+                    Enter your delivery details
+                    before payment.
                 </span>
 
             </div>
@@ -1033,6 +1536,7 @@ function showUPI() {
                 <label>
                     Full Name
                 </label>
+
 
                 <input
                     id="name"
@@ -1045,16 +1549,32 @@ function showUPI() {
                     Email Address
                 </label>
 
+
                 <input
                     id="email"
                     type="email"
+                    value="${account.email || ""}"
                     placeholder="Enter your email"
+                >
+
+
+                <label>
+                    Phone Number
+                </label>
+
+
+                <input
+                    id="phone"
+                    type="tel"
+                    value="${account.phone || ""}"
+                    placeholder="Enter your 10-digit phone number"
                 >
 
 
                 <label>
                     Delivery Address
                 </label>
+
 
                 <textarea
                     id="address"
@@ -1068,6 +1588,7 @@ function showUPI() {
                     <span>
                         Payable Amount
                     </span>
+
 
                     <strong>
                         ₹${getTotal()}
@@ -1093,41 +1614,47 @@ function showUPI() {
 
 
 /* ==========================================
-   LOAD RAZORPAY CHECKOUT
+   LOAD RAZORPAY
 ========================================== */
 
 function loadRazorpayScript() {
 
-    return new Promise((resolve, reject) => {
+    return new Promise(
+        (resolve, reject) => {
 
-        if (window.Razorpay) {
+            if (window.Razorpay) {
 
-            resolve();
+                resolve();
 
-            return;
+                return;
+
+            }
+
+
+            const script =
+                document.createElement(
+                    "script"
+                );
+
+
+            script.src =
+                "https://checkout.razorpay.com/v1/checkout.js";
+
+
+            script.onload =
+                resolve;
+
+
+            script.onerror =
+                reject;
+
+
+            document.body.appendChild(
+                script
+            );
 
         }
-
-
-        const script =
-            document.createElement("script");
-
-
-        script.src =
-            "https://checkout.razorpay.com/v1/checkout.js";
-
-
-        script.onload =
-            resolve;
-
-
-        script.onerror =
-            reject;
-
-
-        document.body.appendChild(script);
-
-    });
+    );
 
 }
 
@@ -1148,6 +1675,13 @@ async function payWithRazorpay() {
     const email =
         document
             .getElementById("email")
+            .value
+            .trim();
+
+
+    const phone =
+        document
+            .getElementById("phone")
             .value
             .trim();
 
@@ -1181,6 +1715,28 @@ async function payWithRazorpay() {
     }
 
 
+    if (!phone) {
+
+        alert(
+            "Please enter your phone number."
+        );
+
+        return;
+
+    }
+
+
+    if (!/^\d{10}$/.test(phone)) {
+
+        alert(
+            "Please enter a valid 10-digit phone number."
+        );
+
+        return;
+
+    }
+
+
     if (!address) {
 
         alert(
@@ -1201,21 +1757,31 @@ async function payWithRazorpay() {
         await loadRazorpayScript();
 
 
+        /* ==================================
+           CREATE ORDER ON SERVER
+        ================================== */
+
         const response =
             await fetch(
                 "http://localhost:5000/create-order",
                 {
 
-                    method: "POST",
+                    method:
+                        "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body:
                         JSON.stringify({
-                            amount: amount
+
+                            amount:
+                                amount
+
                         })
 
                 }
@@ -1235,6 +1801,10 @@ async function payWithRazorpay() {
 
         }
 
+
+        /* ==================================
+           RAZORPAY OPTIONS
+        ================================== */
 
         const options = {
 
@@ -1263,7 +1833,10 @@ async function payWithRazorpay() {
                     name,
 
                 email:
-                    email
+                    email,
+
+                contact:
+                    phone
 
             },
 
@@ -1285,35 +1858,38 @@ async function payWithRazorpay() {
 
 
             handler:
-                async function (payment) {
-
-                    saveOrder(
-
-                        name,
-
-                        email,
-
-                        address,
-
-                        "Razorpay",
-
-                        "Payment Successful",
-
-                        payment.razorpay_payment_id
-
-                    );
+                async function(payment) {
 
 
-                    alert(
-                        "Payment successful! Your order has been placed."
-                    );
+                    const order =
+                        saveOrder(
+
+                            name,
+
+                            email,
+
+                            phone,
+
+                            address,
+
+                            "Razorpay",
+
+                            "Paid",
+
+                            payment.razorpay_payment_id
+
+                        );
 
 
                     cart = [];
 
+
                     updateCart();
 
-                    closeCheckout();
+
+                    showOrderSuccess(
+                        order
+                    );
 
                 },
 
@@ -1321,7 +1897,7 @@ async function payWithRazorpay() {
             modal: {
 
                 ondismiss:
-                    function () {
+                    function() {
 
                         console.log(
                             "Payment window closed."
@@ -1335,12 +1911,14 @@ async function payWithRazorpay() {
 
 
         const razorpay =
-            new Razorpay(options);
+            new Razorpay(
+                options
+            );
 
 
         razorpay.on(
             "payment.failed",
-            function (response) {
+            function(response) {
 
                 alert(
                     "Payment failed. Please try again."
@@ -1359,7 +1937,8 @@ async function payWithRazorpay() {
 
     }
 
-    catch (error) {
+
+    catch(error) {
 
         console.error(error);
 
@@ -1388,6 +1967,10 @@ function showWhatsApp() {
     if (!page) return;
 
 
+    const account =
+        customerAccount || {};
+
+
     page.innerHTML = `
 
         <div class="checkout-container">
@@ -1401,11 +1984,13 @@ function showWhatsApp() {
                     ← Back
                 </button>
 
+
                 <div class="checkout-logo">
 
                     <b>
                         An-Nisah
                     </b>
+
 
                     <small>
                         JEWELLERY
@@ -1422,13 +2007,14 @@ function showWhatsApp() {
                     WHATSAPP ORDER
                 </p>
 
+
                 <h1>
                     Your Details
                 </h1>
 
+
                 <span>
-                    Enter your delivery
-                    details below.
+                    Enter your delivery details below.
                 </span>
 
             </div>
@@ -1440,6 +2026,7 @@ function showWhatsApp() {
                     Full Name
                 </label>
 
+
                 <input
                     id="waName"
                     type="text"
@@ -1448,8 +2035,35 @@ function showWhatsApp() {
 
 
                 <label>
+                    Email Address
+                </label>
+
+
+                <input
+                    id="waEmail"
+                    type="email"
+                    value="${account.email || ""}"
+                    placeholder="Enter your email"
+                >
+
+
+                <label>
+                    Phone Number
+                </label>
+
+
+                <input
+                    id="waPhone"
+                    type="tel"
+                    value="${account.phone || ""}"
+                    placeholder="Enter your phone number"
+                >
+
+
+                <label>
                     Delivery Address
                 </label>
+
 
                 <textarea
                     id="waAddress"
@@ -1463,6 +2077,7 @@ function showWhatsApp() {
                     <span>
                         Order Total
                     </span>
+
 
                     <strong>
                         ₹${getTotal()}
@@ -1493,9 +2108,38 @@ function showWhatsApp() {
 
 function sendWhatsApp() {
 
+    if (!isCustomerLoggedIn()) {
+
+        alert(
+            "Please login before placing your order."
+        );
+
+
+        openLogin();
+
+
+        return;
+
+    }
+
+
     const name =
         document
             .getElementById("waName")
+            .value
+            .trim();
+
+
+    const email =
+        document
+            .getElementById("waEmail")
+            .value
+            .trim();
+
+
+    const phone =
+        document
+            .getElementById("waPhone")
             .value
             .trim();
 
@@ -1511,6 +2155,39 @@ function sendWhatsApp() {
 
         alert(
             "Please enter your name."
+        );
+
+        return;
+
+    }
+
+
+    if (!email) {
+
+        alert(
+            "Please enter your email."
+        );
+
+        return;
+
+    }
+
+
+    if (!phone) {
+
+        alert(
+            "Please enter your phone number."
+        );
+
+        return;
+
+    }
+
+
+    if (!/^\d{10}$/.test(phone)) {
+
+        alert(
+            "Please enter a valid 10-digit phone number."
         );
 
         return;
@@ -1534,7 +2211,9 @@ function sendWhatsApp() {
 
             name,
 
-            "",
+            email,
+
+            phone,
 
             address,
 
@@ -1546,33 +2225,45 @@ function sendWhatsApp() {
 
 
     let message =
-        "Hello An-Nisah Jewellery!\n\n";
+        "Hello An-Nisah Jewellery!%0A%0A";
 
 
     message +=
-        "I want to place an order.\n\n";
+        "I want to place an order.%0A%0A";
 
 
     message +=
         "Order ID: " +
         order.id +
-        "\n";
+        "%0A";
 
 
     message +=
         "Name: " +
         name +
-        "\n";
+        "%0A";
+
+
+    message +=
+        "Email: " +
+        email +
+        "%0A";
+
+
+    message +=
+        "Phone: " +
+        phone +
+        "%0A";
 
 
     message +=
         "Address: " +
         address +
-        "\n\n";
+        "%0A%0A";
 
 
     message +=
-        "Products:\n";
+        "Products:%0A";
 
 
     cart.forEach(item => {
@@ -1587,13 +2278,13 @@ function sendWhatsApp() {
                 item.price *
                 item.quantity
             ) +
-            "\n";
+            "%0A";
 
     });
 
 
     message +=
-        "\nTotal: ₹" +
+        "%0ATotal: ₹" +
         getTotal();
 
 
@@ -1605,28 +2296,568 @@ function sendWhatsApp() {
         "https://wa.me/" +
         number +
         "?text=" +
-        encodeURIComponent(
-            message
-        );
+        message;
 
 
     /*
-       IMPORTANT:
-       Same tab redirect.
-       This avoids creating a blank
-       browser tab on mobile.
+       Save order before opening WhatsApp.
     */
+
+
+    cart = [];
+
+
+    updateCart();
+
+
+    /*
+       Open WhatsApp.
+    */
+
 
     window.location.href =
         whatsapp;
+
+
+    /*
+       Show confirmation page after
+       returning to the website.
+    */
+
+
+    setTimeout(() => {
+
+        showOrderSuccess(
+            order
+        );
+
+    }, 1500);
 
 }
 
 
 /* ==========================================
-   INITIALIZE
+   ORDER SUCCESS PAGE
+========================================== */
+
+function showOrderSuccess(order) {
+
+    const old =
+        document.getElementById(
+            "orderSuccessPage"
+        );
+
+
+    if (old) {
+
+        old.remove();
+
+    }
+
+
+    const page =
+        document.createElement(
+            "div"
+        );
+
+
+    page.id =
+        "orderSuccessPage";
+
+
+    const productHTML =
+        order.products.map(
+            item => `
+
+                <div class="success-product">
+
+                    <div>
+
+                        <strong>
+                            ${item.name}
+                        </strong>
+
+                        <span>
+                            Qty: ${item.quantity}
+                        </span>
+
+                    </div>
+
+
+                    <strong>
+                        ₹${item.price * item.quantity}
+                    </strong>
+
+                </div>
+
+            `
+        ).join("");
+
+
+    page.innerHTML = `
+
+        <div class="success-container">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+
+            <p class="success-eyebrow">
+                ORDER SUCCESSFUL
+            </p>
+
+
+            <h1>
+                Thank You!
+            </h1>
+
+
+            <p class="success-message">
+                Your order has been successfully received.
+                Our team will contact you on WhatsApp
+                with the order details and further updates.
+            </p>
+
+
+            <div class="success-order-card">
+
+                <div class="success-order-header">
+
+                    <span>
+                        Order ID
+                    </span>
+
+
+                    <strong>
+                        ${order.id}
+                    </strong>
+
+                </div>
+
+
+                <div class="success-detail">
+
+                    <span>
+                        Customer
+                    </span>
+
+
+                    <strong>
+                        ${order.customerName}
+                    </strong>
+
+                </div>
+
+
+                <div class="success-detail">
+
+                    <span>
+                        Order Date
+                    </span>
+
+
+                    <strong>
+                        ${order.date}
+                    </strong>
+
+                </div>
+
+
+                <div class="success-detail">
+
+                    <span>
+                        Order Status
+                    </span>
+
+
+                    <strong>
+                        ${order.orderStatus}
+                    </strong>
+
+                </div>
+
+
+                <div class="success-detail">
+
+                    <span>
+                        Payment Status
+                    </span>
+
+
+                    <strong>
+                        ${order.paymentStatus}
+                    </strong>
+
+                </div>
+
+
+                <div class="success-products">
+
+                    <h3>
+                        Your Products
+                    </h3>
+
+                    ${productHTML}
+
+                </div>
+
+
+                <div class="success-total">
+
+                    <span>
+                        Total
+                    </span>
+
+
+                    <strong>
+                        ₹${order.total}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="success-actions">
+
+                <button
+                    class="main-pay-button"
+                    onclick="continueShopping()"
+                >
+                    Continue Shopping
+                </button>
+
+
+                <button
+                    class="success-orders-btn"
+                    onclick="showMyOrders()"
+                >
+                    View My Orders
+                </button>
+
+            </div>
+
+
+            <p class="success-note">
+                💬 Order details will be sent through WhatsApp.
+            </p>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(page);
+
+
+    setTimeout(() => {
+
+        page.classList.add("active");
+
+    }, 20);
+
+}
+
+
+/* ==========================================
+   CONTINUE SHOPPING
+========================================== */
+
+function continueShopping() {
+
+    const page =
+        document.getElementById(
+            "orderSuccessPage"
+        );
+
+
+    if (page) {
+
+        page.remove();
+
+    }
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* ==========================================
+   MY ORDERS
+========================================== */
+
+function showMyOrders() {
+
+    if (!isCustomerLoggedIn()) {
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    const existing =
+        document.getElementById(
+            "myOrdersPage"
+        );
+
+
+    if (existing) {
+
+        existing.remove();
+
+    }
+
+
+    const allOrders =
+        JSON.parse(
+            localStorage.getItem(
+                "annisahOrders"
+            ) || "[]"
+        );
+
+
+    const email =
+        customerAccount?.email || "";
+
+
+    const phone =
+        customerAccount?.phone || "";
+
+
+    const orders =
+        allOrders.filter(
+            order =>
+                order.customerEmail === email ||
+                order.customerPhone === phone
+        );
+
+
+    const page =
+        document.createElement(
+            "div"
+        );
+
+
+    page.id =
+        "myOrdersPage";
+
+
+    let orderHTML = "";
+
+
+    if (orders.length === 0) {
+
+        orderHTML = `
+
+            <div class="category-empty">
+
+                <div class="empty-icon">
+                    ✦
+                </div>
+
+
+                <h2>
+                    No Orders Yet
+                </h2>
+
+
+                <p>
+                    Your previous orders will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    else {
+
+        orders.forEach(order => {
+
+            const productsHTML =
+                order.products.map(
+                    item => `
+
+                        <div class="success-product">
+
+                            <div>
+
+                                <strong>
+                                    ${item.name}
+                                </strong>
+
+                                <span>
+                                    Qty: ${item.quantity}
+                                </span>
+
+                            </div>
+
+
+                            <strong>
+                                ₹${item.price * item.quantity}
+                            </strong>
+
+                        </div>
+
+                    `
+                ).join("");
+
+
+            orderHTML += `
+
+                <div class="my-order-card">
+
+                    <div class="success-order-header">
+
+                        <span>
+                            ${order.id}
+                        </span>
+
+
+                        <strong>
+                            ${order.orderStatus}
+                        </strong>
+
+                    </div>
+
+
+                    <p>
+                        ${order.date}
+                    </p>
+
+
+                    ${productsHTML}
+
+
+                    <div class="success-total">
+
+                        <span>
+                            Total
+                        </span>
+
+
+                        <strong>
+                            ₹${order.total}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="success-detail">
+
+                        <span>
+                            Payment
+                        </span>
+
+
+                        <strong>
+                            ${order.paymentStatus}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    page.innerHTML = `
+
+        <div class="my-orders-container">
+
+            <button
+                class="back-button"
+                onclick="closeMyOrders()"
+            >
+                ← Back
+            </button>
+
+
+            <div class="checkout-title">
+
+                <p>
+                    AN-NISAH
+                </p>
+
+
+                <h1>
+                    My Orders
+                </h1>
+
+
+                <span>
+                    View your previous orders and status.
+                </span>
+
+            </div>
+
+
+            <div class="my-orders-list">
+
+                ${orderHTML}
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(page);
+
+
+    setTimeout(() => {
+
+        page.classList.add("active");
+
+    }, 20);
+
+}
+
+
+/* ==========================================
+   CLOSE MY ORDERS
+========================================== */
+
+function closeMyOrders() {
+
+    const page =
+        document.getElementById(
+            "myOrdersPage"
+        );
+
+
+    if (page) {
+
+        page.remove();
+
+    }
+
+}
+
+
+/* ==========================================
+   FINAL INITIALIZE
 ========================================== */
 
 showMainProducts();
 
 updateCart();
+
+updateLoginButton();
