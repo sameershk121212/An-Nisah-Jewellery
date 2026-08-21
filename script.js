@@ -1,7 +1,8 @@
 /* ==========================================
    AN-NISAH JEWELLERY
-   SCRIPT.JS — PART 1 OF 2
-   NO LOGIN SYSTEM
+   COMPLETE CUSTOMER WEBSITE SCRIPT
+   PART 1 OF 2
+   NO LOGIN REQUIRED
 ========================================== */
 
 
@@ -123,7 +124,6 @@ function openCategory(category) {
         return;
     }
 
-
     let title = "";
     let subtitle = "";
     let categoryProducts = [];
@@ -226,7 +226,8 @@ function openCategory(category) {
             <div
                 class="category-product-grid"
                 id="categoryProductGrid"
-            ></div>
+            >
+            </div>
 
         </div>
 
@@ -338,6 +339,7 @@ function closeCategory() {
     const page =
         document.getElementById("categoryPage");
 
+
     if (!page) {
         return;
     }
@@ -367,6 +369,7 @@ function addToCart(index) {
 
     const product = products[index];
 
+
     if (!product) {
         return;
     }
@@ -383,6 +386,7 @@ function addToCart(index) {
         existing.quantity++;
 
     }
+
 
     else {
 
@@ -531,7 +535,7 @@ function updateCart() {
 
 
 /* ==========================================
-   CHANGE QUANTITY
+   QUANTITY
 ========================================== */
 
 function changeQuantity(index, amount) {
@@ -624,10 +628,8 @@ function getTotal() {
 
         (sum, item) => {
 
-            return (
-                sum +
-                item.price * item.quantity
-            );
+            return sum +
+                item.price * item.quantity;
 
         },
 
@@ -842,116 +844,837 @@ function closeCheckout() {
 
 
     if (page) {
+
         page.remove();
+
     }
 
 }
 
 
 /* ==========================================
-   INITIALIZE PART 1
+   UPI FORM
 ========================================== */
 
-showMainProducts();
+function showUPI() {
 
-updateCart();
+    const page =
+        document.getElementById("checkoutPage");
+
+
+    if (!page) {
+        return;
+    }
+
+
+    page.innerHTML = `
+
+        <div class="checkout-container">
+
+
+            <div class="checkout-header">
+
+                <button
+                    onclick="createCheckoutPage()"
+                    class="back-button"
+                >
+                    ← Back
+                </button>
+
+
+                <div class="checkout-logo">
+
+                    <b>
+                        An-Nisah
+                    </b>
+
+                    <small>
+                        JEWELLERY
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="checkout-title">
+
+                <p>
+                    RAZORPAY PAYMENT
+                </p>
+
+                <h1>
+                    Your Details
+                </h1>
+
+                <span>
+                    Enter your delivery details before payment.
+                </span>
+
+            </div>
+
+
+            <div class="checkout-form">
+
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    id="name"
+                    type="text"
+                    placeholder="Enter your full name"
+                >
+
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your email"
+                >
+
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                    id="phone"
+                    type="tel"
+                    placeholder="Enter your 10-digit phone number"
+                >
+
+
+                <label>
+                    Delivery Address
+                </label>
+
+                <textarea
+                    id="address"
+                    rows="5"
+                    placeholder="Enter your complete address"
+                ></textarea>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        Payable Amount
+                    </span>
+
+                    <strong>
+                        ₹${getTotal()}
+                    </strong>
+
+                </div>
+
+
+                <button
+                    class="main-pay-button"
+                    onclick="payWithRazorpay()"
+                >
+                    Pay Securely →
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   LOAD RAZORPAY
+========================================== */
+
+function loadRazorpayScript() {
+
+    return new Promise((resolve, reject) => {
+
+        if (window.Razorpay) {
+
+            resolve();
+
+            return;
+
+        }
+
+
+        const script =
+            document.createElement("script");
+
+
+        script.src =
+            "https://checkout.razorpay.com/v1/checkout.js";
+
+
+        script.onload = resolve;
+
+        script.onerror = reject;
+
+
+        document.body.appendChild(script);
+
+    });
+
+}
+
+
+/* ==========================================
+   RAZORPAY PAYMENT
+========================================== */
+
+async function payWithRazorpay() {
+
+    const name =
+        document.getElementById("name").value.trim();
+
+
+    const email =
+        document.getElementById("email").value.trim();
+
+
+    const phone =
+        document.getElementById("phone").value.trim();
+
+
+    const address =
+        document.getElementById("address").value.trim();
+
+
+    if (!name) {
+
+        alert("Please enter your name.");
+
+        return;
+
+    }
+
+
+    if (!email) {
+
+        alert("Please enter your email.");
+
+        return;
+
+    }
+
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+
+        alert("Please enter a valid email address.");
+
+        return;
+
+    }
+
+
+    if (!phone) {
+
+        alert("Please enter your phone number.");
+
+        return;
+
+    }
+
+
+    if (!/^\d{10}$/.test(phone)) {
+
+        alert("Please enter a valid 10-digit phone number.");
+
+        return;
+
+    }
+
+
+    if (!address) {
+
+        alert("Please enter your address.");
+
+        return;
+
+    }
+
+
+    const amount = getTotal();
+
+
+    try {
+
+        await loadRazorpayScript();
+
+
+        const response = await fetch(
+            "http://localhost:5000/create-order",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    amount: amount
+                })
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Unable to create payment order."
+            );
+
+        }
+
+
+        const options = {
+
+            key: data.key_id,
+
+            amount: data.amount,
+
+            currency: "INR",
+
+            name: "An-Nisah Jewellery",
+
+            description: "Jewellery Order",
+
+            order_id: data.order_id,
+
+
+            prefill: {
+
+                name: name,
+
+                email: email,
+
+                contact: phone
+
+            },
+
+
+            notes: {
+
+                address: address
+
+            },
+
+
+            theme: {
+
+                color: "#c9a227"
+
+            },
+
+
+            handler: async function(payment) {
+
+                const order =
+                    saveOrder(
+                        name,
+                        email,
+                        phone,
+                        address,
+                        "Razorpay",
+                        "Paid",
+                        payment.razorpay_payment_id
+                    );
+
+
+                cart = [];
+
+                updateCart();
+
+
+                showOrderSuccess(order);
+
+            },
+
+
+            modal: {
+
+                ondismiss: function() {
+
+                    console.log(
+                        "Payment window closed."
+                    );
+
+                }
+
+            }
+
+        };
+
+
+        const razorpay =
+            new Razorpay(options);
+
+
+        razorpay.on(
+            "payment.failed",
+            function(response) {
+
+                alert(
+                    "Payment failed. Please try again."
+                );
+
+
+                console.error(
+                    response.error
+                );
+
+            }
+        );
+
+
+        razorpay.open();
+
+    }
+
+
+    catch (error) {
+
+        console.error(error);
+
+
+        alert(
+            "Payment system is not ready yet. Please try again later."
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   END OF PART 1
+
+   PART 2 WILL CONTINUE BELOW THIS CODE
+========================================== */
 /* ==========================================
    AN-NISAH JEWELLERY
    PART 2 OF 2
-   THANK YOU PAGE AFTER WHATSAPP
+   WHATSAPP + THANK YOU + MY ORDERS
 ========================================== */
 
 
 /* ==========================================
-   WHATSAPP ORDER
+   SAVE ORDER
+========================================== */
+
+function saveOrder(
+    customerName,
+    customerEmail,
+    customerPhone,
+    customerAddress,
+    paymentMethod,
+    paymentStatus,
+    paymentId = ""
+) {
+
+    const existing =
+        localStorage.getItem("annisahOrders");
+
+    let orders = [];
+
+
+    if (existing) {
+
+        try {
+
+            const parsed =
+                JSON.parse(existing);
+
+            if (Array.isArray(parsed)) {
+                orders = parsed;
+            }
+
+        }
+
+        catch (error) {
+
+            orders = [];
+
+        }
+
+    }
+
+
+    const order = {
+
+        id:
+            "ORD-" + Date.now(),
+
+        customerName:
+            customerName,
+
+        customerEmail:
+            customerEmail || "",
+
+        customerPhone:
+            customerPhone || "",
+
+        customerAddress:
+            customerAddress,
+
+        products:
+            cart.map(item => ({
+
+                name:
+                    item.name,
+
+                price:
+                    item.price,
+
+                quantity:
+                    item.quantity,
+
+                image:
+                    item.image
+
+            })),
+
+        total:
+            getTotal(),
+
+        paymentMethod:
+            paymentMethod,
+
+        paymentStatus:
+            paymentStatus,
+
+        orderStatus:
+            paymentMethod === "Razorpay"
+                ? "Confirmed"
+                : "Pending",
+
+        paymentId:
+            paymentId,
+
+        date:
+            new Date().toLocaleString("en-IN")
+
+    };
+
+
+    orders.unshift(order);
+
+
+    localStorage.setItem(
+        "annisahOrders",
+        JSON.stringify(orders)
+    );
+
+
+    return order;
+
+}
+
+
+/* ==========================================
+   WHATSAPP PAGE
+========================================== */
+
+function showWhatsApp() {
+
+    const page =
+        document.getElementById("checkoutPage");
+
+
+    if (!page) {
+        return;
+    }
+
+
+    page.innerHTML = `
+
+        <div class="checkout-container">
+
+
+            <div class="checkout-header">
+
+                <button
+                    onclick="createCheckoutPage()"
+                    class="back-button"
+                >
+                    ← Back
+                </button>
+
+
+                <div class="checkout-logo">
+
+                    <b>
+                        An-Nisah
+                    </b>
+
+                    <small>
+                        JEWELLERY
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="checkout-title">
+
+                <p>
+                    WHATSAPP ORDER
+                </p>
+
+                <h1>
+                    Your Details
+                </h1>
+
+                <span>
+                    Enter your delivery details below.
+                </span>
+
+            </div>
+
+
+            <div class="checkout-form">
+
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    id="waName"
+                    type="text"
+                    placeholder="Enter your full name"
+                >
+
+
+                <label>
+                    Email Address
+                </label>
+
+                <input
+                    id="waEmail"
+                    type="email"
+                    placeholder="Enter your email"
+                >
+
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                    id="waPhone"
+                    type="tel"
+                    placeholder="Enter your 10-digit phone number"
+                >
+
+
+                <label>
+                    Delivery Address
+                </label>
+
+                <textarea
+                    id="waAddress"
+                    rows="5"
+                    placeholder="Enter your complete address"
+                ></textarea>
+
+
+                <div class="checkout-total">
+
+                    <span>
+                        Order Total
+                    </span>
+
+                    <strong>
+                        ₹${getTotal()}
+                    </strong>
+
+                </div>
+
+
+                <button
+                    class="main-pay-button"
+                    onclick="sendWhatsApp()"
+                >
+                    Send Order on WhatsApp →
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   SEND WHATSAPP ORDER
 ========================================== */
 
 function sendWhatsApp() {
 
     const name =
-        document.getElementById("waName").value.trim();
+        document
+            .getElementById("waName")
+            .value
+            .trim();
+
 
     const email =
-        document.getElementById("waEmail").value.trim();
+        document
+            .getElementById("waEmail")
+            .value
+            .trim();
+
 
     const phone =
-        document.getElementById("waPhone").value.trim();
+        document
+            .getElementById("waPhone")
+            .value
+            .trim();
+
 
     const address =
-        document.getElementById("waAddress").value.trim();
+        document
+            .getElementById("waAddress")
+            .value
+            .trim();
 
 
     if (!name) {
-        alert("Please enter your name.");
+
+        alert(
+            "Please enter your name."
+        );
+
         return;
+
     }
+
 
     if (!email) {
-        alert("Please enter your email.");
+
+        alert(
+            "Please enter your email."
+        );
+
         return;
+
     }
+
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        alert("Please enter a valid email address.");
+
+        alert(
+            "Please enter a valid email address."
+        );
+
         return;
+
     }
+
 
     if (!phone) {
-        alert("Please enter your phone number.");
+
+        alert(
+            "Please enter your phone number."
+        );
+
         return;
+
     }
+
 
     if (!/^\d{10}$/.test(phone)) {
-        alert("Please enter a valid 10-digit phone number.");
+
+        alert(
+            "Please enter a valid 10-digit phone number."
+        );
+
         return;
+
     }
+
 
     if (!address) {
-        alert("Please enter your address.");
+
+        alert(
+            "Please enter your address."
+        );
+
         return;
+
     }
 
 
-    const order = saveOrder(
-        name,
-        email,
-        phone,
-        address,
-        "WhatsApp",
-        "Order Received"
-    );
+    const order =
+        saveOrder(
+            name,
+            email,
+            phone,
+            address,
+            "WhatsApp",
+            "Order Received"
+        );
 
 
     let message =
         "Hello An-Nisah Jewellery!\n\n";
 
+
     message +=
         "I want to place an order.\n\n";
+
 
     message +=
         "Order ID: " +
         order.id +
         "\n";
 
+
     message +=
         "Name: " +
         name +
         "\n";
+
 
     message +=
         "Email: " +
         email +
         "\n";
 
+
     message +=
         "Phone: " +
         phone +
         "\n";
 
+
     message +=
         "Address: " +
         address +
         "\n\n";
+
 
     message +=
         "Products:\n";
@@ -976,7 +1699,12 @@ function sendWhatsApp() {
         getTotal();
 
 
-    const number = "917263993880";
+    /* ======================================
+       YOUR WHATSAPP NUMBER
+    ====================================== */
+
+    const number =
+        "917263993880";
 
 
     const whatsapp =
@@ -986,12 +1714,9 @@ function sendWhatsApp() {
         encodeURIComponent(message);
 
 
-    /*
-       IMPORTANT:
-       Save order temporarily so when the customer
-       comes back from WhatsApp, the Thank You page
-       can automatically appear.
-    */
+    /* ======================================
+       SAVE ORDER FOR THANK YOU PAGE
+    ====================================== */
 
     localStorage.setItem(
         "annisahPendingThankYou",
@@ -1004,14 +1729,14 @@ function sendWhatsApp() {
     updateCart();
 
 
-    /*
-       Open WhatsApp.
-       Customer can send the order there.
-    */
+    /* ======================================
+       OPEN WHATSAPP
+    ====================================== */
 
-    window.location.href = whatsapp;
+    window.location.href =
+        whatsapp;
+
 }
-
 
 
 /* ==========================================
@@ -1046,6 +1771,7 @@ function checkPendingThankYou() {
 
     }
 
+
     catch (error) {
 
         console.error(
@@ -1059,28 +1785,8 @@ function checkPendingThankYou() {
         );
 
     }
+
 }
-
-
-
-/* ==========================================
-   WHEN USER RETURNS TO WEBSITE
-   FROM WHATSAPP
-========================================== */
-
-window.addEventListener(
-    "pageshow",
-    function() {
-
-        setTimeout(function() {
-
-            checkPendingThankYou();
-
-        }, 500);
-
-    }
-);
-
 
 
 /* ==========================================
@@ -1088,7 +1794,6 @@ window.addEventListener(
 ========================================== */
 
 function showOrderSuccess(order) {
-
 
     const old =
         document.getElementById(
@@ -1109,37 +1814,33 @@ function showOrderSuccess(order) {
         "orderSuccessPage";
 
 
-    let productHTML = "";
+    const productHTML =
+        order.products
+            .map(item => `
 
+                <div class="success-product">
 
-    order.products.forEach(item => {
+                    <div>
 
-        productHTML += `
+                        <strong>
+                            ${item.name}
+                        </strong>
 
-            <div class="success-product">
+                        <span>
+                            Qty: ${item.quantity}
+                        </span>
 
-                <div>
+                    </div>
+
 
                     <strong>
-                        ${item.name}
+                        ₹${item.price * item.quantity}
                     </strong>
-
-                    <span>
-                        Qty: ${item.quantity}
-                    </span>
 
                 </div>
 
-                <strong>
-                    ₹${item.price * item.quantity}
-                </strong>
-
-            </div>
-
-        `;
-
-    });
-
+            `)
+            .join("");
 
 
     page.innerHTML = `
@@ -1153,7 +1854,7 @@ function showOrderSuccess(order) {
 
 
             <p class="success-eyebrow">
-                ORDER RECEIVED
+                ORDER SUCCESSFUL
             </p>
 
 
@@ -1164,16 +1865,12 @@ function showOrderSuccess(order) {
 
             <p class="success-message">
 
-                Your order has been successfully
-                received.
-
-                <br><br>
+                Your order has been successfully received.
 
                 Our team will contact you on WhatsApp
-                with your order details and further updates.
+                with the order details and further updates.
 
             </p>
-
 
 
             <div class="success-order-card">
@@ -1192,7 +1889,6 @@ function showOrderSuccess(order) {
                 </div>
 
 
-
                 <div class="success-detail">
 
                     <span>
@@ -1204,7 +1900,6 @@ function showOrderSuccess(order) {
                     </strong>
 
                 </div>
-
 
 
                 <div class="success-detail">
@@ -1220,7 +1915,6 @@ function showOrderSuccess(order) {
                 </div>
 
 
-
                 <div class="success-detail">
 
                     <span>
@@ -1232,7 +1926,6 @@ function showOrderSuccess(order) {
                     </strong>
 
                 </div>
-
 
 
                 <div class="success-detail">
@@ -1248,7 +1941,6 @@ function showOrderSuccess(order) {
                 </div>
 
 
-
                 <div class="success-products">
 
                     <h3>
@@ -1258,7 +1950,6 @@ function showOrderSuccess(order) {
                     ${productHTML}
 
                 </div>
-
 
 
                 <div class="success-total">
@@ -1277,7 +1968,6 @@ function showOrderSuccess(order) {
             </div>
 
 
-
             <div class="success-actions">
 
 
@@ -1285,9 +1975,7 @@ function showOrderSuccess(order) {
                     class="main-pay-button"
                     onclick="continueShopping()"
                 >
-
                     Continue Shopping
-
                 </button>
 
 
@@ -1295,20 +1983,16 @@ function showOrderSuccess(order) {
                     class="success-orders-btn"
                     onclick="showMyOrders()"
                 >
-
                     View My Orders
-
                 </button>
 
 
             </div>
 
 
-
             <p class="success-note">
 
-                💬 Order details have been sent
-                through WhatsApp.
+                💬 Order details will be sent through WhatsApp.
 
             </p>
 
@@ -1321,14 +2005,13 @@ function showOrderSuccess(order) {
     document.body.appendChild(page);
 
 
-    setTimeout(function() {
+    setTimeout(() => {
 
         page.classList.add("active");
 
     }, 20);
 
 }
-
 
 
 /* ==========================================
@@ -1344,9 +2027,7 @@ function continueShopping() {
 
 
     if (page) {
-
         page.remove();
-
     }
 
 
@@ -1359,7 +2040,6 @@ function continueShopping() {
     });
 
 }
-
 
 
 /* ==========================================
@@ -1375,9 +2055,7 @@ function showMyOrders() {
 
 
     if (existing) {
-
         existing.remove();
-
     }
 
 
@@ -1400,7 +2078,6 @@ function showMyOrders() {
     let orderHTML = "";
 
 
-
     if (allOrders.length === 0) {
 
         orderHTML = `
@@ -1416,8 +2093,7 @@ function showMyOrders() {
                 </h2>
 
                 <p>
-                    Your previous orders will
-                    appear here.
+                    Your previous orders will appear here.
                 </p>
 
             </div>
@@ -1431,38 +2107,33 @@ function showMyOrders() {
 
         allOrders.forEach(order => {
 
+            const productsHTML =
+                order.products
+                    .map(item => `
 
-            let productsHTML = "";
+                        <div class="success-product">
 
+                            <div>
 
-            order.products.forEach(item => {
+                                <strong>
+                                    ${item.name}
+                                </strong>
 
-                productsHTML += `
+                                <span>
+                                    Qty: ${item.quantity}
+                                </span>
 
-                    <div class="success-product">
+                            </div>
 
-                        <div>
 
                             <strong>
-                                ${item.name}
+                                ₹${item.price * item.quantity}
                             </strong>
-
-                            <span>
-                                Qty: ${item.quantity}
-                            </span>
 
                         </div>
 
-                        <strong>
-                            ₹${item.price * item.quantity}
-                        </strong>
-
-                    </div>
-
-                `;
-
-            });
-
+                    `)
+                    .join("");
 
 
             orderHTML += `
@@ -1526,7 +2197,6 @@ function showMyOrders() {
     }
 
 
-
     page.innerHTML = `
 
         <div class="my-orders-container">
@@ -1536,9 +2206,7 @@ function showMyOrders() {
                 class="back-button"
                 onclick="closeMyOrders()"
             >
-
                 ← Back
-
             </button>
 
 
@@ -1553,8 +2221,7 @@ function showMyOrders() {
                 </h1>
 
                 <span>
-                    View your previous orders
-                    and status.
+                    View your previous orders and status.
                 </span>
 
             </div>
@@ -1575,14 +2242,13 @@ function showMyOrders() {
     document.body.appendChild(page);
 
 
-    setTimeout(function() {
+    setTimeout(() => {
 
         page.classList.add("active");
 
     }, 20);
 
 }
-
 
 
 /* ==========================================
@@ -1606,7 +2272,6 @@ function closeMyOrders() {
 }
 
 
-
 /* ==========================================
    FINAL INITIALIZE
 ========================================== */
@@ -1615,4 +2280,35 @@ showMainProducts();
 
 updateCart();
 
-checkPendingThankYou();
+
+/* ==========================================
+   CHECK THANK YOU AFTER RETURN
+   FROM WHATSAPP
+========================================== */
+
+window.addEventListener(
+    "pageshow",
+    function() {
+
+        setTimeout(() => {
+
+            checkPendingThankYou();
+
+        }, 300);
+
+    }
+);
+
+
+/* Also check once when page loads */
+
+setTimeout(() => {
+
+    checkPendingThankYou();
+
+}, 500);
+
+
+/* ==========================================
+   END OF SCRIPT
+========================================== */
