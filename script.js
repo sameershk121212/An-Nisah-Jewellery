@@ -1,7 +1,6 @@
 /* ==========================================
    AN-NISAH JEWELLERY
    CUSTOMER WEBSITE SCRIPT
-   PART 1
 ========================================== */
 
 
@@ -10,57 +9,47 @@
 ========================================== */
 
 const products = [
-
     {
         name: "Elegant Necklace",
         price: 299,
         image: "image/product1.jpg"
     },
-
     {
         name: "Golden Necklace",
         price: 299,
         image: "image/product2.jpg"
     },
-
     {
         name: "Elegant Ring",
         price: 299,
         image: "image/product3.jpg"
     },
-
     {
         name: "Premium Jewellery",
         price: 299,
         image: "image/product4.jpg"
     },
-
     {
         name: "Classic Necklace",
         price: 299,
         image: "image/product5.jpg"
     },
-
     {
         name: "Fashion Jewellery",
         price: 299,
         image: "image/product6.jpg"
     },
-
     {
         name: "Golden Collection",
         price: 299,
         image: "image/product7.jpg"
     },
-
     {
         name: "Elegant Collection",
         price: 299,
         image: "image/product8.jpg"
     }
-
 ];
-
 
 let cart = [];
 
@@ -70,18 +59,12 @@ let cart = [];
 ========================================== */
 
 let customerLoggedIn =
-    localStorage.getItem(
-        "annisahCustomerLoggedIn"
-    ) === "true";
-
+    localStorage.getItem("annisahCustomerLoggedIn") === "true";
 
 let customerAccount =
     JSON.parse(
-        localStorage.getItem(
-            "annisahCustomerAccount"
-        ) || "null"
+        localStorage.getItem("annisahCustomerAccount") || "null"
     );
-
 
 let loginOTP = null;
 
@@ -100,11 +83,9 @@ function showMainProducts() {
 
     productGrid.innerHTML = "";
 
-
     products.forEach((product, index) => {
 
         productGrid.innerHTML += `
-
             <div class="product-card">
 
                 <div class="product-image">
@@ -116,18 +97,15 @@ function showMainProducts() {
 
                 </div>
 
-
                 <div class="product-info">
 
                     <h3>
                         ${product.name}
                     </h3>
 
-
                     <p>
                         ₹${product.price}
                     </p>
-
 
                     <button
                         class="add-cart"
@@ -139,11 +117,9 @@ function showMainProducts() {
                 </div>
 
             </div>
-
         `;
 
     });
-
 }
 
 
@@ -154,18 +130,12 @@ function showMainProducts() {
 function openCategory(category) {
 
     const page =
-        document.getElementById(
-            "categoryPage"
-        );
-
+        document.getElementById("categoryPage");
 
     if (!page) return;
 
-
     let title = "";
-
     let subtitle = "";
-
     let categoryProducts = [];
 
 
@@ -180,7 +150,6 @@ function openCategory(category) {
 
     }
 
-
     else if (category === "rings") {
 
         title = "Rings";
@@ -192,7 +161,6 @@ function openCategory(category) {
 
     }
 
-
     else if (category === "bangles") {
 
         title = "Bangles";
@@ -203,7 +171,6 @@ function openCategory(category) {
         categoryProducts = [];
 
     }
-
 
     else if (category === "gift") {
 
@@ -237,7 +204,6 @@ function openCategory(category) {
                         An-Nisah
                     </span>
 
-
                     <small>
                         JEWELLERY
                     </small>
@@ -253,11 +219,9 @@ function openCategory(category) {
                     AN-NISAH COLLECTION
                 </p>
 
-
                 <h1>
                     ${title}
                 </h1>
-
 
                 <span>
                     ${subtitle}
@@ -272,7 +236,6 @@ function openCategory(category) {
             ></div>
 
         </div>
-
     `;
 
 
@@ -292,11 +255,9 @@ function openCategory(category) {
                     ✦
                 </div>
 
-
                 <h2>
                     Coming Soon
                 </h2>
-
 
                 <p>
                     Beautiful
@@ -309,7 +270,6 @@ function openCategory(category) {
         `;
 
     }
-
 
     else {
 
@@ -336,11 +296,9 @@ function openCategory(category) {
                                 ${product.name}
                             </h3>
 
-
                             <p>
                                 ₹${product.price}
                             </p>
-
 
                             <button
                                 class="add-cart"
@@ -371,7 +329,6 @@ function openCategory(category) {
         page.classList.add("show");
 
     }, 20);
-
 }
 
 
@@ -385,7 +342,6 @@ function closeCategory() {
         document.getElementById(
             "categoryPage"
         );
-
 
     if (!page) return;
 
@@ -402,7 +358,6 @@ function closeCategory() {
         document.body.style.overflow = "";
 
     }, 350);
-
 }
 
 
@@ -414,7 +369,6 @@ function addToCart(index) {
 
     const product =
         products[index];
-
 
     if (!product) return;
 
@@ -432,22 +386,17 @@ function addToCart(index) {
 
     }
 
-
     else {
 
         cart.push({
 
-            name:
-                product.name,
+            name: product.name,
 
-            price:
-                product.price,
+            price: product.price,
 
-            image:
-                product.image,
+            image: product.image,
 
-            quantity:
-                1
+            quantity: 1
 
         });
 
@@ -457,7 +406,6 @@ function addToCart(index) {
     updateCart();
 
     openCart();
-
 }
 
 
@@ -472,12 +420,10 @@ function updateCart() {
             "cartCount"
         );
 
-
     const items =
         document.getElementById(
             "cartItems"
         );
-
 
     const total =
         document.getElementById(
@@ -486,14 +432,11 @@ function updateCart() {
 
 
     if (!count || !items || !total) {
-
         return;
-
     }
 
 
     let totalItems = 0;
-
     let totalPrice = 0;
 
 
@@ -501,7 +444,6 @@ function updateCart() {
 
         totalItems +=
             item.quantity;
-
 
         totalPrice +=
             item.price *
@@ -512,7 +454,6 @@ function updateCart() {
 
     count.textContent =
         totalItems;
-
 
     total.textContent =
         totalPrice;
@@ -529,7 +470,6 @@ function updateCart() {
         `;
 
         return;
-
     }
 
 
@@ -548,7 +488,6 @@ function updateCart() {
                         ${item.name}
                     </strong>
 
-
                     <p>
                         ₹${item.price}
                     </p>
@@ -562,11 +501,9 @@ function updateCart() {
                             −
                         </button>
 
-
                         <span>
                             ${item.quantity}
                         </span>
-
 
                         <button
                             onclick="changeQuantity(${index}, 1)"
@@ -596,7 +533,6 @@ function updateCart() {
         `;
 
     });
-
 }
 
 
@@ -620,7 +556,6 @@ function changeQuantity(index, amount) {
 
 
     updateCart();
-
 }
 
 
@@ -633,7 +568,6 @@ function removeFromCart(index) {
     cart.splice(index, 1);
 
     updateCart();
-
 }
 
 
@@ -648,12 +582,10 @@ function openCart() {
             "cartOverlay"
         );
 
-
     if (!overlay) return;
 
 
     overlay.classList.add("active");
-
 }
 
 
@@ -668,12 +600,10 @@ function closeCart() {
             "cartOverlay"
         );
 
-
     if (!overlay) return;
 
 
     overlay.classList.remove("active");
-
 }
 
 
@@ -684,7 +614,6 @@ function closeCart() {
 function getTotal() {
 
     return cart.reduce(
-
         (sum, item) => {
 
             return (
@@ -694,11 +623,8 @@ function getTotal() {
             );
 
         },
-
         0
-
     );
-
 }
 
 
@@ -712,7 +638,6 @@ function openLogin() {
         document.getElementById(
             "loginOverlay"
         );
-
 
     if (!overlay) return;
 
@@ -734,12 +659,10 @@ function openLogin() {
 
 
         return;
-
     }
 
 
     overlay.classList.add("active");
-
 }
 
 
@@ -754,12 +677,10 @@ function closeLogin() {
             "loginOverlay"
         );
 
-
     if (!overlay) return;
 
 
     overlay.classList.remove("active");
-
 }
 
 
@@ -790,13 +711,11 @@ function sendLoginOTP() {
         );
 
         return;
-
     }
 
 
     if (
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            .test(email)
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     ) {
 
         alert(
@@ -804,7 +723,6 @@ function sendLoginOTP() {
         );
 
         return;
-
     }
 
 
@@ -819,7 +737,6 @@ function sendLoginOTP() {
         );
 
         return;
-
     }
 
 
@@ -838,11 +755,9 @@ function sendLoginOTP() {
 
     customerAccount = {
 
-        email:
-            email,
+        email: email,
 
-        phone:
-            cleanPhone
+        phone: cleanPhone
 
     };
 
@@ -889,7 +804,6 @@ function sendLoginOTP() {
             " — enter this OTP to continue.";
 
     }
-
 }
 
 
@@ -903,7 +817,6 @@ function verifyLoginOTP() {
         document.getElementById(
             "loginOTP"
         );
-
 
     if (!otpInput) return;
 
@@ -919,7 +832,6 @@ function verifyLoginOTP() {
         );
 
         return;
-
     }
 
 
@@ -930,7 +842,6 @@ function verifyLoginOTP() {
         );
 
         return;
-
     }
 
 
@@ -956,14 +867,12 @@ function verifyLoginOTP() {
 
     closeLogin();
 
-
     updateLoginButton();
 
 
     alert(
-        "Login successful! You can now place your order."
+        "Login successful!"
     );
-
 }
 
 
@@ -1002,7 +911,6 @@ function backToLogin() {
 
 
     loginOTP = null;
-
 }
 
 
@@ -1035,7 +943,6 @@ function logoutCustomer() {
     alert(
         "You have been logged out."
     );
-
 }
 
 
@@ -1067,7 +974,6 @@ function updateLoginButton() {
             "👤 Login";
 
     }
-
 }
 
 
@@ -1078,19 +984,7 @@ function updateLoginButton() {
 function isCustomerLoggedIn() {
 
     return customerLoggedIn === true;
-
 }
-
-
-/* ==========================================
-   INITIALIZE LOGIN BUTTON
-========================================== */
-
-updateLoginButton();
-/* ==========================================
-   PART 2
-   CHECKOUT + RAZORPAY + WHATSAPP
-========================================== */
 
 
 /* ==========================================
@@ -1210,12 +1104,12 @@ function saveOrder(
 
 
     return order;
-
 }
 
 
 /* ==========================================
    CHECKOUT
+   LOGIN NOT REQUIRED
 ========================================== */
 
 function checkout() {
@@ -1227,24 +1121,6 @@ function checkout() {
         );
 
         return;
-
-    }
-
-
-    /* LOGIN REQUIRED */
-
-    if (!isCustomerLoggedIn()) {
-
-        alert(
-            "Please login before placing your order."
-        );
-
-
-        openLogin();
-
-
-        return;
-
     }
 
 
@@ -1252,7 +1128,6 @@ function checkout() {
 
 
     createCheckoutPage();
-
 }
 
 
@@ -1320,11 +1195,9 @@ function createCheckoutPage() {
                     SECURE CHECKOUT
                 </p>
 
-
                 <h1>
                     Complete Your Order
                 </h1>
-
 
                 <span>
                     Choose your preferred
@@ -1339,7 +1212,6 @@ function createCheckoutPage() {
                 <span>
                     Order Total
                 </span>
-
 
                 <strong>
                     ₹${getTotal()}
@@ -1366,12 +1238,10 @@ function createCheckoutPage() {
                             UPI Payment
                         </h2>
 
-
                         <p>
                             Pay securely using
                             Razorpay.
                         </p>
-
 
                         <small>
                             Fast & Secure
@@ -1403,13 +1273,11 @@ function createCheckoutPage() {
                             WhatsApp Order
                         </h2>
 
-
                         <p>
                             Send your order
                             directly through
                             WhatsApp.
                         </p>
-
 
                         <small>
                             Quick Ordering
@@ -1437,7 +1305,6 @@ function createCheckoutPage() {
 
 
     document.body.appendChild(page);
-
 }
 
 
@@ -1458,7 +1325,6 @@ function closeCheckout() {
         page.remove();
 
     }
-
 }
 
 
@@ -1501,7 +1367,6 @@ function showUPI() {
                         An-Nisah
                     </b>
 
-
                     <small>
                         JEWELLERY
                     </small>
@@ -1517,11 +1382,9 @@ function showUPI() {
                     RAZORPAY PAYMENT
                 </p>
 
-
                 <h1>
                     Your Details
                 </h1>
-
 
                 <span>
                     Enter your delivery details
@@ -1537,7 +1400,6 @@ function showUPI() {
                     Full Name
                 </label>
 
-
                 <input
                     id="name"
                     type="text"
@@ -1548,7 +1410,6 @@ function showUPI() {
                 <label>
                     Email Address
                 </label>
-
 
                 <input
                     id="email"
@@ -1562,7 +1423,6 @@ function showUPI() {
                     Phone Number
                 </label>
 
-
                 <input
                     id="phone"
                     type="tel"
@@ -1574,7 +1434,6 @@ function showUPI() {
                 <label>
                     Delivery Address
                 </label>
-
 
                 <textarea
                     id="address"
@@ -1588,7 +1447,6 @@ function showUPI() {
                     <span>
                         Payable Amount
                     </span>
-
 
                     <strong>
                         ₹${getTotal()}
@@ -1609,7 +1467,6 @@ function showUPI() {
         </div>
 
     `;
-
 }
 
 
@@ -1627,7 +1484,6 @@ function loadRazorpayScript() {
                 resolve();
 
                 return;
-
             }
 
 
@@ -1655,7 +1511,6 @@ function loadRazorpayScript() {
 
         }
     );
-
 }
 
 
@@ -1700,7 +1555,6 @@ async function payWithRazorpay() {
         );
 
         return;
-
     }
 
 
@@ -1711,7 +1565,6 @@ async function payWithRazorpay() {
         );
 
         return;
-
     }
 
 
@@ -1722,7 +1575,6 @@ async function payWithRazorpay() {
         );
 
         return;
-
     }
 
 
@@ -1733,7 +1585,6 @@ async function payWithRazorpay() {
         );
 
         return;
-
     }
 
 
@@ -1744,7 +1595,6 @@ async function payWithRazorpay() {
         );
 
         return;
-
     }
 
 
@@ -1757,33 +1607,23 @@ async function payWithRazorpay() {
         await loadRazorpayScript();
 
 
-        /* ==================================
-           CREATE ORDER ON SERVER
-        ================================== */
-
         const response =
             await fetch(
                 "http://localhost:5000/create-order",
                 {
-
                     method:
                         "POST",
 
                     headers: {
-
                         "Content-Type":
                             "application/json"
-
                     },
 
                     body:
                         JSON.stringify({
-
                             amount:
                                 amount
-
                         })
-
                 }
             );
 
@@ -1801,10 +1641,6 @@ async function payWithRazorpay() {
 
         }
 
-
-        /* ==================================
-           RAZORPAY OPTIONS
-        ================================== */
 
         const options = {
 
@@ -1860,29 +1696,19 @@ async function payWithRazorpay() {
             handler:
                 async function(payment) {
 
-
                     const order =
                         saveOrder(
-
                             name,
-
                             email,
-
                             phone,
-
                             address,
-
                             "Razorpay",
-
                             "Paid",
-
                             payment.razorpay_payment_id
-
                         );
 
 
                     cart = [];
-
 
                     updateCart();
 
@@ -1937,7 +1763,6 @@ async function payWithRazorpay() {
 
     }
 
-
     catch(error) {
 
         console.error(error);
@@ -1948,7 +1773,6 @@ async function payWithRazorpay() {
         );
 
     }
-
 }
 
 
@@ -1991,7 +1815,6 @@ function showWhatsApp() {
                         An-Nisah
                     </b>
 
-
                     <small>
                         JEWELLERY
                     </small>
@@ -2007,11 +1830,9 @@ function showWhatsApp() {
                     WHATSAPP ORDER
                 </p>
 
-
                 <h1>
                     Your Details
                 </h1>
-
 
                 <span>
                     Enter your delivery details below.
@@ -2026,7 +1847,6 @@ function showWhatsApp() {
                     Full Name
                 </label>
 
-
                 <input
                     id="waName"
                     type="text"
@@ -2037,7 +1857,6 @@ function showWhatsApp() {
                 <label>
                     Email Address
                 </label>
-
 
                 <input
                     id="waEmail"
@@ -2051,7 +1870,6 @@ function showWhatsApp() {
                     Phone Number
                 </label>
 
-
                 <input
                     id="waPhone"
                     type="tel"
@@ -2063,7 +1881,6 @@ function showWhatsApp() {
                 <label>
                     Delivery Address
                 </label>
-
 
                 <textarea
                     id="waAddress"
@@ -2077,7 +1894,6 @@ function showWhatsApp() {
                     <span>
                         Order Total
                     </span>
-
 
                     <strong>
                         ₹${getTotal()}
@@ -2098,7 +1914,6 @@ function showWhatsApp() {
         </div>
 
     `;
-
 }
 
 
@@ -2107,21 +1922,6 @@ function showWhatsApp() {
 ========================================== */
 
 function sendWhatsApp() {
-
-    if (!isCustomerLoggedIn()) {
-
-        alert(
-            "Please login before placing your order."
-        );
-
-
-        openLogin();
-
-
-        return;
-
-    }
-
 
     const name =
         document
@@ -2158,7 +1958,6 @@ function sendWhatsApp() {
         );
 
         return;
-
     }
 
 
@@ -2169,7 +1968,18 @@ function sendWhatsApp() {
         );
 
         return;
+    }
 
+
+    if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+
+        alert(
+            "Please enter a valid email address."
+        );
+
+        return;
     }
 
 
@@ -2180,7 +1990,6 @@ function sendWhatsApp() {
         );
 
         return;
-
     }
 
 
@@ -2191,7 +2000,6 @@ function sendWhatsApp() {
         );
 
         return;
-
     }
 
 
@@ -2202,68 +2010,82 @@ function sendWhatsApp() {
         );
 
         return;
-
     }
 
 
+    if (cart.length === 0) {
+
+        alert(
+            "Your cart is empty."
+        );
+
+        return;
+    }
+
+
+    /* SAVE ORDER */
+
     const order =
         saveOrder(
-
             name,
-
             email,
-
             phone,
-
             address,
-
             "WhatsApp",
-
             "Order Received"
-
         );
 
 
+    /* SAVE PENDING ORDER */
+
+    sessionStorage.setItem(
+        "annisahPendingOrder",
+        JSON.stringify(order)
+    );
+
+
+    /* CREATE WHATSAPP MESSAGE */
+
     let message =
-        "Hello An-Nisah Jewellery!%0A%0A";
+        "Hello An-Nisah Jewellery!\n\n";
 
 
     message +=
-        "I want to place an order.%0A%0A";
+        "I want to place an order.\n\n";
 
 
     message +=
         "Order ID: " +
         order.id +
-        "%0A";
+        "\n";
 
 
     message +=
         "Name: " +
         name +
-        "%0A";
+        "\n";
 
 
     message +=
         "Email: " +
         email +
-        "%0A";
+        "\n";
 
 
     message +=
         "Phone: " +
         phone +
-        "%0A";
+        "\n";
 
 
     message +=
         "Address: " +
         address +
-        "%0A%0A";
+        "\n\n";
 
 
     message +=
-        "Products:%0A";
+        "Products:\n";
 
 
     cart.forEach(item => {
@@ -2274,17 +2096,14 @@ function sendWhatsApp() {
             " x " +
             item.quantity +
             " = ₹" +
-            (
-                item.price *
-                item.quantity
-            ) +
-            "%0A";
+            (item.price * item.quantity) +
+            "\n";
 
     });
 
 
     message +=
-        "%0ATotal: ₹" +
+        "\nTotal: ₹" +
         getTotal();
 
 
@@ -2296,43 +2115,72 @@ function sendWhatsApp() {
         "https://wa.me/" +
         number +
         "?text=" +
-        message;
+        encodeURIComponent(message);
 
 
-    /*
-       Save order before opening WhatsApp.
-    */
-
+    /* CLEAR CART */
 
     cart = [];
-
 
     updateCart();
 
 
-    /*
-       Open WhatsApp.
-    */
-
+    /* OPEN WHATSAPP */
 
     window.location.href =
         whatsapp;
+}
 
 
-    /*
-       Show confirmation page after
-       returning to the website.
-    */
+/* ==========================================
+   CHECK PENDING WHATSAPP ORDER
+========================================== */
 
+function checkPendingWhatsAppOrder() {
 
-    setTimeout(() => {
-
-        showOrderSuccess(
-            order
+    const pending =
+        sessionStorage.getItem(
+            "annisahPendingOrder"
         );
 
-    }, 1500);
 
+    if (!pending) {
+        return;
+    }
+
+
+    try {
+
+        const order =
+            JSON.parse(pending);
+
+
+        sessionStorage.removeItem(
+            "annisahPendingOrder"
+        );
+
+
+        setTimeout(() => {
+
+            showOrderSuccess(order);
+
+        }, 300);
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Unable to load pending order:",
+            error
+        );
+
+
+        sessionStorage.removeItem(
+            "annisahPendingOrder"
+        );
+
+    }
 }
 
 
@@ -2349,9 +2197,7 @@ function showOrderSuccess(order) {
 
 
     if (old) {
-
         old.remove();
-
     }
 
 
@@ -2366,32 +2212,34 @@ function showOrderSuccess(order) {
 
 
     const productHTML =
-        order.products.map(
-            item => `
+        order.products
+            .map(
+                item => `
 
-                <div class="success-product">
+                    <div class="success-product">
 
-                    <div>
+                        <div>
+
+                            <strong>
+                                ${item.name}
+                            </strong>
+
+                            <span>
+                                Qty: ${item.quantity}
+                            </span>
+
+                        </div>
+
 
                         <strong>
-                            ${item.name}
+                            ₹${item.price * item.quantity}
                         </strong>
-
-                        <span>
-                            Qty: ${item.quantity}
-                        </span>
 
                     </div>
 
-
-                    <strong>
-                        ₹${item.price * item.quantity}
-                    </strong>
-
-                </div>
-
-            `
-        ).join("");
+                `
+            )
+            .join("");
 
 
     page.innerHTML = `
@@ -2414,9 +2262,12 @@ function showOrderSuccess(order) {
 
 
             <p class="success-message">
+
                 Your order has been successfully received.
+
                 Our team will contact you on WhatsApp
                 with the order details and further updates.
+
             </p>
 
 
@@ -2427,7 +2278,6 @@ function showOrderSuccess(order) {
                     <span>
                         Order ID
                     </span>
-
 
                     <strong>
                         ${order.id}
@@ -2442,7 +2292,6 @@ function showOrderSuccess(order) {
                         Customer
                     </span>
 
-
                     <strong>
                         ${order.customerName}
                     </strong>
@@ -2455,7 +2304,6 @@ function showOrderSuccess(order) {
                     <span>
                         Order Date
                     </span>
-
 
                     <strong>
                         ${order.date}
@@ -2470,7 +2318,6 @@ function showOrderSuccess(order) {
                         Order Status
                     </span>
 
-
                     <strong>
                         ${order.orderStatus}
                     </strong>
@@ -2483,7 +2330,6 @@ function showOrderSuccess(order) {
                     <span>
                         Payment Status
                     </span>
-
 
                     <strong>
                         ${order.paymentStatus}
@@ -2508,7 +2354,6 @@ function showOrderSuccess(order) {
                     <span>
                         Total
                     </span>
-
 
                     <strong>
                         ₹${order.total}
@@ -2540,7 +2385,9 @@ function showOrderSuccess(order) {
 
 
             <p class="success-note">
+
                 💬 Order details will be sent through WhatsApp.
+
             </p>
 
         </div>
@@ -2556,7 +2403,6 @@ function showOrderSuccess(order) {
         page.classList.add("active");
 
     }, 20);
-
 }
 
 
@@ -2586,7 +2432,6 @@ function continueShopping() {
         behavior: "smooth"
 
     });
-
 }
 
 
@@ -2601,7 +2446,6 @@ function showMyOrders() {
         openLogin();
 
         return;
-
     }
 
 
@@ -2665,11 +2509,9 @@ function showMyOrders() {
                     ✦
                 </div>
 
-
                 <h2>
                     No Orders Yet
                 </h2>
-
 
                 <p>
                     Your previous orders will appear here.
@@ -2681,38 +2523,39 @@ function showMyOrders() {
 
     }
 
-
     else {
 
         orders.forEach(order => {
 
             const productsHTML =
-                order.products.map(
-                    item => `
+                order.products
+                    .map(
+                        item => `
 
-                        <div class="success-product">
+                            <div class="success-product">
 
-                            <div>
+                                <div>
+
+                                    <strong>
+                                        ${item.name}
+                                    </strong>
+
+                                    <span>
+                                        Qty: ${item.quantity}
+                                    </span>
+
+                                </div>
+
 
                                 <strong>
-                                    ${item.name}
+                                    ₹${item.price * item.quantity}
                                 </strong>
-
-                                <span>
-                                    Qty: ${item.quantity}
-                                </span>
 
                             </div>
 
-
-                            <strong>
-                                ₹${item.price * item.quantity}
-                            </strong>
-
-                        </div>
-
-                    `
-                ).join("");
+                        `
+                    )
+                    .join("");
 
 
             orderHTML += `
@@ -2724,7 +2567,6 @@ function showMyOrders() {
                         <span>
                             ${order.id}
                         </span>
-
 
                         <strong>
                             ${order.orderStatus}
@@ -2747,7 +2589,6 @@ function showMyOrders() {
                             Total
                         </span>
 
-
                         <strong>
                             ₹${order.total}
                         </strong>
@@ -2760,7 +2601,6 @@ function showMyOrders() {
                         <span>
                             Payment
                         </span>
-
 
                         <strong>
                             ${order.paymentStatus}
@@ -2795,11 +2635,9 @@ function showMyOrders() {
                     AN-NISAH
                 </p>
 
-
                 <h1>
                     My Orders
                 </h1>
-
 
                 <span>
                     View your previous orders and status.
@@ -2827,7 +2665,6 @@ function showMyOrders() {
         page.classList.add("active");
 
     }, 20);
-
 }
 
 
@@ -2848,7 +2685,6 @@ function closeMyOrders() {
         page.remove();
 
     }
-
 }
 
 
@@ -2861,3 +2697,5 @@ showMainProducts();
 updateCart();
 
 updateLoginButton();
+
+checkPendingWhatsAppOrder();
