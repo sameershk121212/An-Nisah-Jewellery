@@ -1,6 +1,7 @@
 /* ==========================================
    AN-NISAH JEWELLERY
    CUSTOMER WEBSITE SCRIPT
+   RAZORPAY READY VERSION
 ========================================== */
 
 
@@ -135,7 +136,6 @@ function openCategory(category) {
     let title = "";
     let subtitle = "";
     let categoryProducts = [];
-
 
     if (category === "necklaces") {
 
@@ -342,7 +342,6 @@ function closeCategory() {
 
     if (!page) return;
 
-
     page.classList.remove("show");
 
 
@@ -388,13 +387,17 @@ function addToCart(index) {
 
         cart.push({
 
-            name: product.name,
+            name:
+                product.name,
 
-            price: product.price,
+            price:
+                product.price,
 
-            image: product.image,
+            image:
+                product.image,
 
-            quantity: 1
+            quantity:
+                1
 
         });
 
@@ -813,7 +816,6 @@ function createCheckoutPage() {
                     ← Back
                 </button>
 
-
                 <div class="checkout-logo">
 
                     <b>
@@ -871,7 +873,6 @@ function createCheckoutPage() {
                         💳
                     </div>
 
-
                     <div>
 
                         <h2>
@@ -889,7 +890,6 @@ function createCheckoutPage() {
 
                     </div>
 
-
                     <b>
                         →
                     </b>
@@ -905,7 +905,6 @@ function createCheckoutPage() {
                     <div class="payment-icon">
                         💬
                     </div>
-
 
                     <div>
 
@@ -924,7 +923,6 @@ function createCheckoutPage() {
                         </small>
 
                     </div>
-
 
                     <b>
                         →
@@ -997,7 +995,6 @@ function showUPI() {
                 >
                     ← Back
                 </button>
-
 
                 <div class="checkout-logo">
 
@@ -1096,7 +1093,7 @@ function showUPI() {
 
 
 /* ==========================================
-   LOAD RAZORPAY
+   LOAD RAZORPAY CHECKOUT
 ========================================== */
 
 function loadRazorpayScript() {
@@ -1290,30 +1287,33 @@ async function payWithRazorpay() {
             handler:
                 async function (payment) {
 
-                    const order =
-                        saveOrder(
+                    saveOrder(
 
-                            name,
+                        name,
 
-                            email,
+                        email,
 
-                            address,
+                        address,
 
-                            "Razorpay",
+                        "Razorpay",
 
-                            "Payment Successful",
+                        "Payment Successful",
 
-                            payment.razorpay_payment_id
+                        payment.razorpay_payment_id
 
-                        );
+                    );
 
 
-                    showOrderConfirmation(order);
+                    alert(
+                        "Payment successful! Your order has been placed."
+                    );
 
 
                     cart = [];
 
                     updateCart();
+
+                    closeCheckout();
 
                 },
 
@@ -1359,7 +1359,6 @@ async function payWithRazorpay() {
 
     }
 
-
     catch (error) {
 
         console.error(error);
@@ -1402,7 +1401,6 @@ function showWhatsApp() {
                     ← Back
                 </button>
 
-
                 <div class="checkout-logo">
 
                     <b>
@@ -1442,7 +1440,6 @@ function showWhatsApp() {
                     Full Name
                 </label>
 
-
                 <input
                     id="waName"
                     type="text"
@@ -1453,7 +1450,6 @@ function showWhatsApp() {
                 <label>
                     Delivery Address
                 </label>
-
 
                 <textarea
                     id="waAddress"
@@ -1467,7 +1463,6 @@ function showWhatsApp() {
                     <span>
                         Order Total
                     </span>
-
 
                     <strong>
                         ₹${getTotal()}
@@ -1534,10 +1529,6 @@ function sendWhatsApp() {
     }
 
 
-    /*
-       SAVE ORDER
-    */
-
     const order =
         saveOrder(
 
@@ -1553,10 +1544,6 @@ function sendWhatsApp() {
 
         );
 
-
-    /*
-       CREATE WHATSAPP MESSAGE
-    */
 
     let message =
         "Hello An-Nisah Jewellery!\n\n";
@@ -1610,10 +1597,6 @@ function sendWhatsApp() {
         getTotal();
 
 
-    /*
-       WHATSAPP NUMBER
-    */
-
     const number =
         "917263993880";
 
@@ -1628,283 +1611,14 @@ function sendWhatsApp() {
 
 
     /*
-       OPEN WHATSAPP
+       IMPORTANT:
+       Same tab redirect.
+       This avoids creating a blank
+       browser tab on mobile.
     */
 
-    window.open(
-        whatsapp,
-        "_blank"
-    );
-
-
-    /*
-       SHOW ORDER CONFIRMATION
-    */
-
-    showOrderConfirmation(order);
-
-
-    /*
-       EMPTY CART
-    */
-
-    cart = [];
-
-    updateCart();
-
-}
-
-
-/* ==========================================
-   ORDER CONFIRMATION PAGE
-========================================== */
-
-function showOrderConfirmation(order) {
-
-    const old =
-        document.getElementById(
-            "orderConfirmationPage"
-        );
-
-
-    if (old) {
-
-        old.remove();
-
-    }
-
-
-    let productsHTML = "";
-
-
-    order.products.forEach(item => {
-
-        productsHTML += `
-
-            <div class="confirmed-product">
-
-                <div>
-
-                    <strong>
-                        ${item.name}
-                    </strong>
-
-                    <p>
-                        Quantity:
-                        ${item.quantity}
-                    </p>
-
-                </div>
-
-
-                <strong>
-                    ₹${item.price * item.quantity}
-                </strong>
-
-            </div>
-
-        `;
-
-    });
-
-
-    const page =
-        document.createElement("div");
-
-
-    page.id =
-        "orderConfirmationPage";
-
-
-    page.innerHTML = `
-
-        <div class="checkout-container">
-
-            <div class="checkout-header">
-
-                <div class="checkout-logo">
-
-                    <b>
-                        An-Nisah
-                    </b>
-
-                    <small>
-                        JEWELLERY
-                    </small>
-
-                </div>
-
-            </div>
-
-
-            <div class="checkout-title">
-
-                <div class="order-success-icon">
-                    ✓
-                </div>
-
-
-                <p>
-                    ORDER CONFIRMED
-                </p>
-
-
-                <h1>
-                    Thank You!
-                </h1>
-
-
-                <span>
-                    Your order has been received successfully.
-                </span>
-
-            </div>
-
-
-            <div class="order-confirmation-card">
-
-
-                <div class="order-row">
-
-                    <span>
-                        Order ID
-                    </span>
-
-                    <strong>
-                        ${order.id}
-                    </strong>
-
-                </div>
-
-
-                <div class="order-row">
-
-                    <span>
-                        Customer
-                    </span>
-
-                    <strong>
-                        ${order.customerName}
-                    </strong>
-
-                </div>
-
-
-                <div class="order-row">
-
-                    <span>
-                        Order Date
-                    </span>
-
-                    <strong>
-                        ${order.date}
-                    </strong>
-
-                </div>
-
-
-                <div class="order-row">
-
-                    <span>
-                        Payment
-                    </span>
-
-                    <strong>
-                        ${order.paymentMethod}
-                    </strong>
-
-                </div>
-
-
-                <div class="order-row">
-
-                    <span>
-                        Status
-                    </span>
-
-                    <strong class="order-status">
-                        ${order.paymentStatus}
-                    </strong>
-
-                </div>
-
-
-                <div class="order-row">
-
-                    <span>
-                        Total
-                    </span>
-
-                    <strong>
-                        ₹${order.total}
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="confirmed-products">
-
-                <h2>
-                    Your Products
-                </h2>
-
-
-                ${productsHTML}
-
-
-            </div>
-
-
-            <button
-                class="main-pay-button"
-                onclick="closeOrderConfirmation()"
-            >
-                Continue Shopping →
-            </button>
-
-
-        </div>
-
-    `;
-
-
-    document.body.appendChild(page);
-
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-}
-
-
-/* ==========================================
-   CLOSE ORDER CONFIRMATION
-========================================== */
-
-function closeOrderConfirmation() {
-
-    const page =
-        document.getElementById(
-            "orderConfirmationPage"
-        );
-
-
-    if (page) {
-
-        page.remove();
-
-    }
-
-
-    document.body.style.overflow = "";
+    window.location.href =
+        whatsapp;
 
 }
 
