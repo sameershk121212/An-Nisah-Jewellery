@@ -1,7 +1,6 @@
 /* ==========================================
    AN-NISAH JEWELLERY
    CUSTOMER WEBSITE SCRIPT
-   RAZORPAY READY VERSION
 ========================================== */
 
 
@@ -137,6 +136,7 @@ function openCategory(category) {
     let subtitle = "";
     let categoryProducts = [];
 
+
     if (category === "necklaces") {
 
         title = "Necklaces";
@@ -181,6 +181,7 @@ function openCategory(category) {
 
     }
 
+
     page.innerHTML = `
 
         <div class="category-page-inner">
@@ -208,6 +209,7 @@ function openCategory(category) {
 
             </div>
 
+
             <div class="category-page-heading">
 
                 <p>
@@ -224,6 +226,7 @@ function openCategory(category) {
 
             </div>
 
+
             <div
                 class="category-product-grid"
                 id="categoryProductGrid"
@@ -233,10 +236,12 @@ function openCategory(category) {
 
     `;
 
+
     const grid =
         document.getElementById(
             "categoryProductGrid"
         );
+
 
     if (categoryProducts.length === 0) {
 
@@ -309,9 +314,11 @@ function openCategory(category) {
 
     }
 
+
     page.classList.add("active");
 
     document.body.style.overflow = "hidden";
+
 
     setTimeout(() => {
 
@@ -335,7 +342,9 @@ function closeCategory() {
 
     if (!page) return;
 
+
     page.classList.remove("show");
+
 
     setTimeout(() => {
 
@@ -361,11 +370,13 @@ function addToCart(index) {
 
     if (!product) return;
 
+
     const existing =
         cart.find(
             item =>
                 item.name === product.name
         );
+
 
     if (existing) {
 
@@ -388,6 +399,7 @@ function addToCart(index) {
         });
 
     }
+
 
     updateCart();
 
@@ -417,15 +429,18 @@ function updateCart() {
             "cartTotal"
         );
 
+
     if (!count || !items || !total) {
 
         return;
 
     }
 
+
     let totalItems = 0;
 
     let totalPrice = 0;
+
 
     cart.forEach(item => {
 
@@ -438,11 +453,13 @@ function updateCart() {
 
     });
 
+
     count.textContent =
         totalItems;
 
     total.textContent =
         totalPrice;
+
 
     if (cart.length === 0) {
 
@@ -458,7 +475,9 @@ function updateCart() {
 
     }
 
+
     items.innerHTML = "";
+
 
     cart.forEach((item, index) => {
 
@@ -526,13 +545,16 @@ function changeQuantity(index, amount) {
 
     if (!cart[index]) return;
 
+
     cart[index].quantity += amount;
+
 
     if (cart[index].quantity <= 0) {
 
         cart.splice(index, 1);
 
     }
+
 
     updateCart();
 
@@ -563,7 +585,9 @@ function openCart() {
             "cartOverlay"
         );
 
+
     if (!overlay) return;
+
 
     overlay.classList.add("active");
 
@@ -581,7 +605,9 @@ function closeCart() {
             "cartOverlay"
         );
 
+
     if (!overlay) return;
+
 
     overlay.classList.remove("active");
 
@@ -631,7 +657,9 @@ function saveOrder(
             "annisahOrders"
         );
 
+
     let orders = [];
+
 
     if (existing) {
 
@@ -639,6 +667,7 @@ function saveOrder(
 
             const parsed =
                 JSON.parse(existing);
+
 
             if (Array.isArray(parsed)) {
 
@@ -655,6 +684,7 @@ function saveOrder(
         }
 
     }
+
 
     const order = {
 
@@ -704,12 +734,15 @@ function saveOrder(
 
     };
 
+
     orders.unshift(order);
+
 
     localStorage.setItem(
         "annisahOrders",
         JSON.stringify(orders)
     );
+
 
     return order;
 
@@ -732,6 +765,7 @@ function checkout() {
 
     }
 
+
     closeCart();
 
     createCheckoutPage();
@@ -750,17 +784,21 @@ function createCheckoutPage() {
             "checkoutPage"
         );
 
+
     if (old) {
 
         old.remove();
 
     }
 
+
     const page =
         document.createElement("div");
 
+
     page.id =
         "checkoutPage";
+
 
     page.innerHTML = `
 
@@ -775,6 +813,7 @@ function createCheckoutPage() {
                     ← Back
                 </button>
 
+
                 <div class="checkout-logo">
 
                     <b>
@@ -788,6 +827,7 @@ function createCheckoutPage() {
                 </div>
 
             </div>
+
 
             <div class="checkout-title">
 
@@ -806,6 +846,7 @@ function createCheckoutPage() {
 
             </div>
 
+
             <div class="checkout-total">
 
                 <span>
@@ -818,6 +859,7 @@ function createCheckoutPage() {
 
             </div>
 
+
             <div class="payment-options">
 
                 <button
@@ -828,6 +870,7 @@ function createCheckoutPage() {
                     <div class="payment-icon">
                         💳
                     </div>
+
 
                     <div>
 
@@ -846,11 +889,13 @@ function createCheckoutPage() {
 
                     </div>
 
+
                     <b>
                         →
                     </b>
 
                 </button>
+
 
                 <button
                     onclick="showWhatsApp()"
@@ -860,6 +905,7 @@ function createCheckoutPage() {
                     <div class="payment-icon">
                         💬
                     </div>
+
 
                     <div>
 
@@ -879,6 +925,7 @@ function createCheckoutPage() {
 
                     </div>
 
+
                     <b>
                         →
                     </b>
@@ -887,6 +934,7 @@ function createCheckoutPage() {
 
             </div>
 
+
             <p class="secure-note">
                 🔒 Your information is kept private.
             </p>
@@ -894,6 +942,7 @@ function createCheckoutPage() {
         </div>
 
     `;
+
 
     document.body.appendChild(page);
 
@@ -910,6 +959,7 @@ function closeCheckout() {
         document.getElementById(
             "checkoutPage"
         );
+
 
     if (page) {
 
@@ -931,7 +981,9 @@ function showUPI() {
             "checkoutPage"
         );
 
+
     if (!page) return;
+
 
     page.innerHTML = `
 
@@ -946,6 +998,7 @@ function showUPI() {
                     ← Back
                 </button>
 
+
                 <div class="checkout-logo">
 
                     <b>
@@ -959,6 +1012,7 @@ function showUPI() {
                 </div>
 
             </div>
+
 
             <div class="checkout-title">
 
@@ -976,6 +1030,7 @@ function showUPI() {
 
             </div>
 
+
             <div class="checkout-form">
 
                 <label>
@@ -988,6 +1043,7 @@ function showUPI() {
                     placeholder="Enter your full name"
                 >
 
+
                 <label>
                     Email Address
                 </label>
@@ -998,6 +1054,7 @@ function showUPI() {
                     placeholder="Enter your email"
                 >
 
+
                 <label>
                     Delivery Address
                 </label>
@@ -1007,6 +1064,7 @@ function showUPI() {
                     rows="5"
                     placeholder="Enter your complete address"
                 ></textarea>
+
 
                 <div class="checkout-total">
 
@@ -1020,11 +1078,12 @@ function showUPI() {
 
                 </div>
 
+
                 <button
                     class="main-pay-button"
                     onclick="payWithRazorpay()"
                 >
-                    Pay Securely → 
+                    Pay Securely →
                 </button>
 
             </div>
@@ -1037,7 +1096,7 @@ function showUPI() {
 
 
 /* ==========================================
-   LOAD RAZORPAY CHECKOUT
+   LOAD RAZORPAY
 ========================================== */
 
 function loadRazorpayScript() {
@@ -1052,15 +1111,22 @@ function loadRazorpayScript() {
 
         }
 
+
         const script =
             document.createElement("script");
+
 
         script.src =
             "https://checkout.razorpay.com/v1/checkout.js";
 
-        script.onload = resolve;
 
-        script.onerror = reject;
+        script.onload =
+            resolve;
+
+
+        script.onerror =
+            reject;
+
 
         document.body.appendChild(script);
 
@@ -1081,11 +1147,13 @@ async function payWithRazorpay() {
             .value
             .trim();
 
+
     const email =
         document
             .getElementById("email")
             .value
             .trim();
+
 
     const address =
         document
@@ -1136,10 +1204,6 @@ async function payWithRazorpay() {
         await loadRazorpayScript();
 
 
-        /* ================================
-           CREATE ORDER ON SERVER
-        ================================= */
-
         const response =
             await fetch(
                 "http://localhost:5000/create-order",
@@ -1174,10 +1238,6 @@ async function payWithRazorpay() {
 
         }
 
-
-        /* ================================
-           RAZORPAY OPTIONS
-        ================================= */
 
         const options = {
 
@@ -1230,33 +1290,30 @@ async function payWithRazorpay() {
             handler:
                 async function (payment) {
 
-                    saveOrder(
+                    const order =
+                        saveOrder(
 
-                        name,
+                            name,
 
-                        email,
+                            email,
 
-                        address,
+                            address,
 
-                        "Razorpay",
+                            "Razorpay",
 
-                        "Payment Successful",
+                            "Payment Successful",
 
-                        payment.razorpay_payment_id
+                            payment.razorpay_payment_id
 
-                    );
+                        );
 
 
-                    alert(
-                        "Payment successful! Your order has been placed."
-                    );
+                    showOrderConfirmation(order);
 
 
                     cart = [];
 
                     updateCart();
-
-                    closeCheckout();
 
                 },
 
@@ -1289,6 +1346,7 @@ async function payWithRazorpay() {
                     "Payment failed. Please try again."
                 );
 
+
                 console.error(
                     response.error
                 );
@@ -1301,9 +1359,11 @@ async function payWithRazorpay() {
 
     }
 
+
     catch (error) {
 
         console.error(error);
+
 
         alert(
             "Payment system is not ready yet. Please try again later."
@@ -1325,7 +1385,9 @@ function showWhatsApp() {
             "checkoutPage"
         );
 
+
     if (!page) return;
+
 
     page.innerHTML = `
 
@@ -1340,6 +1402,7 @@ function showWhatsApp() {
                     ← Back
                 </button>
 
+
                 <div class="checkout-logo">
 
                     <b>
@@ -1353,6 +1416,7 @@ function showWhatsApp() {
                 </div>
 
             </div>
+
 
             <div class="checkout-title">
 
@@ -1371,11 +1435,13 @@ function showWhatsApp() {
 
             </div>
 
+
             <div class="checkout-form">
 
                 <label>
                     Full Name
                 </label>
+
 
                 <input
                     id="waName"
@@ -1383,9 +1449,11 @@ function showWhatsApp() {
                     placeholder="Enter your full name"
                 >
 
+
                 <label>
                     Delivery Address
                 </label>
+
 
                 <textarea
                     id="waAddress"
@@ -1393,17 +1461,20 @@ function showWhatsApp() {
                     placeholder="Enter your complete address"
                 ></textarea>
 
+
                 <div class="checkout-total">
 
                     <span>
                         Order Total
                     </span>
 
+
                     <strong>
                         ₹${getTotal()}
                     </strong>
 
                 </div>
+
 
                 <button
                     class="main-pay-button"
@@ -1432,6 +1503,7 @@ function sendWhatsApp() {
             .getElementById("waName")
             .value
             .trim();
+
 
     const address =
         document
@@ -1462,20 +1534,29 @@ function sendWhatsApp() {
     }
 
 
-    saveOrder(
+    /*
+       SAVE ORDER
+    */
 
-        name,
+    const order =
+        saveOrder(
 
-        "",
+            name,
 
-        address,
+            "",
 
-        "WhatsApp",
+            address,
 
-        "Order Received"
+            "WhatsApp",
 
-    );
+            "Order Received"
 
+        );
+
+
+    /*
+       CREATE WHATSAPP MESSAGE
+    */
 
     let message =
         "Hello An-Nisah Jewellery!\n\n";
@@ -1483,6 +1564,12 @@ function sendWhatsApp() {
 
     message +=
         "I want to place an order.\n\n";
+
+
+    message +=
+        "Order ID: " +
+        order.id +
+        "\n";
 
 
     message +=
@@ -1523,6 +1610,10 @@ function sendWhatsApp() {
         getTotal();
 
 
+    /*
+       WHATSAPP NUMBER
+    */
+
     const number =
         "917263993880";
 
@@ -1536,10 +1627,284 @@ function sendWhatsApp() {
         );
 
 
+    /*
+       OPEN WHATSAPP
+    */
+
     window.open(
         whatsapp,
         "_blank"
     );
+
+
+    /*
+       SHOW ORDER CONFIRMATION
+    */
+
+    showOrderConfirmation(order);
+
+
+    /*
+       EMPTY CART
+    */
+
+    cart = [];
+
+    updateCart();
+
+}
+
+
+/* ==========================================
+   ORDER CONFIRMATION PAGE
+========================================== */
+
+function showOrderConfirmation(order) {
+
+    const old =
+        document.getElementById(
+            "orderConfirmationPage"
+        );
+
+
+    if (old) {
+
+        old.remove();
+
+    }
+
+
+    let productsHTML = "";
+
+
+    order.products.forEach(item => {
+
+        productsHTML += `
+
+            <div class="confirmed-product">
+
+                <div>
+
+                    <strong>
+                        ${item.name}
+                    </strong>
+
+                    <p>
+                        Quantity:
+                        ${item.quantity}
+                    </p>
+
+                </div>
+
+
+                <strong>
+                    ₹${item.price * item.quantity}
+                </strong>
+
+            </div>
+
+        `;
+
+    });
+
+
+    const page =
+        document.createElement("div");
+
+
+    page.id =
+        "orderConfirmationPage";
+
+
+    page.innerHTML = `
+
+        <div class="checkout-container">
+
+            <div class="checkout-header">
+
+                <div class="checkout-logo">
+
+                    <b>
+                        An-Nisah
+                    </b>
+
+                    <small>
+                        JEWELLERY
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="checkout-title">
+
+                <div class="order-success-icon">
+                    ✓
+                </div>
+
+
+                <p>
+                    ORDER CONFIRMED
+                </p>
+
+
+                <h1>
+                    Thank You!
+                </h1>
+
+
+                <span>
+                    Your order has been received successfully.
+                </span>
+
+            </div>
+
+
+            <div class="order-confirmation-card">
+
+
+                <div class="order-row">
+
+                    <span>
+                        Order ID
+                    </span>
+
+                    <strong>
+                        ${order.id}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>
+                        Customer
+                    </span>
+
+                    <strong>
+                        ${order.customerName}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>
+                        Order Date
+                    </span>
+
+                    <strong>
+                        ${order.date}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>
+                        Payment
+                    </span>
+
+                    <strong>
+                        ${order.paymentMethod}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>
+                        Status
+                    </span>
+
+                    <strong class="order-status">
+                        ${order.paymentStatus}
+                    </strong>
+
+                </div>
+
+
+                <div class="order-row">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+                        ₹${order.total}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="confirmed-products">
+
+                <h2>
+                    Your Products
+                </h2>
+
+
+                ${productsHTML}
+
+
+            </div>
+
+
+            <button
+                class="main-pay-button"
+                onclick="closeOrderConfirmation()"
+            >
+                Continue Shopping →
+            </button>
+
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(page);
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+/* ==========================================
+   CLOSE ORDER CONFIRMATION
+========================================== */
+
+function closeOrderConfirmation() {
+
+    const page =
+        document.getElementById(
+            "orderConfirmationPage"
+        );
+
+
+    if (page) {
+
+        page.remove();
+
+    }
+
+
+    document.body.style.overflow = "";
 
 }
 

@@ -3867,3 +3867,117 @@ footer {
     position: relative;
     z-index: 2;
 }
+@media (max-width: 600px) {
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .product-card img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        display: block;
+    }
+
+}
+/* ==========================================
+   MOBILE PRODUCT CARD GAP FIX
+========================================== */
+
+@media (max-width: 600px) {
+
+    .product-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-image {
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .product-info {
+        padding: 14px 12px 12px;
+    }
+
+    .product-info h3 {
+        font-size: 17px;
+        line-height: 1.25;
+    }
+
+    .product-info p {
+        margin: 6px 0 10px;
+        font-size: 16px;
+    }
+
+    .add-cart {
+        padding: 10px;
+    }
+}
+/* ==========================================
+   ORDER CONFIRMED PAGE
+========================================== */
+
+.order-success-icon {
+    width: 80px;
+    height: 80px;
+    margin: 20px auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    background: #c9a227;
+    color: white;
+}
+
+.order-confirmation-card {
+    max-width: 650px;
+    margin: 25px auto;
+    padding: 25px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.7);
+}
+
+.order-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.order-row:last-child {
+    border-bottom: none;
+}
+
+.order-status {
+    color: #b08a16;
+}
+
+.confirmed-products {
+    max-width: 650px;
+    margin: 25px auto;
+}
+
+.confirmed-product {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.confirmed-product p {
+    margin: 5px 0 0;
+    opacity: 0.65;
+}
